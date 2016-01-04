@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="model.XueYuan">
+
+	<select id="getAllXueYuan" resultType="JMWJ.XueYuan.XueYuanBean">
+		select * from jmwj_xueyuan
+	</select>
+
+	<select id="getXueYuanByName" parameterType="String"
+		resultType="JMWJ.XueYuan.XueYuanBean">
+		select * from jmwj_xueyuan where name like
+		CONCAT('%',#{name},'%')
+	</select>
+
+	<select id="getXueYuanByClassID" parameterType="String"
+		resultType="JMWJ.XueYuan.XueYuanBean">
+		select * from jmwj_xueyuan where classesid like
+		CONCAT('%',#{classesid},'%')
+	</select>
+
+	<insert id="createXueYuan" parameterType="JMWJ.XueYuan.XueYuanBean"
+		useGeneratedKeys="true" keyProperty="id" flushCache="true">
+		insert into
+		jmwj_xueyuan(name,sex,degree,birthday,startday,channel,consultant,mobile,phone,mothermobile,fathermobile,address,mothername,fathername,givehours,classesid)
+		values (#{name},
+		#{sex},#{degree},#{birthday,jdbcType=DATE},#{startday,jdbcType=DATE},#{channel},#{consultant},#{mobile},#{phone},#{mothermobile},#{fathermobile},#{address},#{mothername},#{fathername},#{givehours},#{classesid})
+	</insert>
+
+	<update id="modifyXueYuan" parameterType="JMWJ.XueYuan.XueYuanBean">
+		update jmwj_xueyuan
+		<set>
+			<if test="name != null ">
+				name = #{name},
+			</if>
+			<if test="sex != null ">
+				sex = #{sex},
+			</if>
+			<if test="degree != null ">
+				degree = #{degree},
+			</if>
+			<if test="birthday != null ">
+				birthday = #{birthday,
+				jdbcType=DATE},
+			</if>
+			<if test="startday != null ">
+				startday = #{startday,jdbcType=DATE},
+			</if>
+			<if test="channel != null ">
+				channel = #{channel},
+			</if>
+			<if test="consultant != null ">
+				consultant = #{consultant},
+			</if>
+			<if test="mobile != null ">
+				mobile = #{mobile},
+			</if>
+			<if test="phone != null ">
+				phone = #{phone},
+			</if>
+			<if test="mothermobile != null ">
+				mothermobile = #{mothermobile},
+			</if>
+			<if test="fathermobile != null ">
+				fathermobile = #{fathermobile},
+			</if>
+			<if test="address != null ">
+				address = #{address},
+			</if>
+			<if test="mothername != null ">
+				mothername = #{mothername},
+			</if>
+			<if test="fathername != null ">
+				fathername = #{fathername},
+			</if>
+			<if test="givehours != null ">
+				givehours = #{givehours},
+			</if>
+			<if test="classesid != null ">
+				classesid = #{classesid}
+			</if>
+		</set>
+		where id = #{id}
+	</update>
+
+	<delete id="removeXueYuan" parameterType="int">
+		delete from
+		jmwj_xueyuan where id = #{id}
+	</delete>
+</mapper>  

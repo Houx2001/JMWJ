@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="model.KaoQin">
+
+	<select id="getXueYuanKaoQinByBanji" parameterType="String" resultType="JMWJ.KaoQin.XueYuanKaoQinBean">
+		select k.id, k.studentid, x.name as studentname, k.classname, k.timesheettime, k.status, k.rating from jmwj_xueyuan_kaoqin k, jmwj_xueyuan x 
+			where k.studentid = x.id and k.classname = #{classname} order by k.timesheettime, x.name
+	</select>
+	
+	<select id="getXueYuanKaoQinByXueYuan" parameterType="String" resultType="JMWJ.KaoQin.XueYuanKaoQinBean">
+		select k.id, k.studentid, x.name as studentname, k.classname, k.timesheettime, k.status, k.rating from jmwj_xueyuan_kaoqin k, jmwj_xueyuan x 
+			where k.studentid = x.id and x.name = #{studentname} order by k.timesheettime, k.classname
+	</select>
+	
+	<select id="getXueYuanKaoQinByBanJiAndShiJian" parameterType="java.util.Map" resultType="JMWJ.KaoQin.XueYuanKaoQinBean">
+		select k.id, k.studentid, x.name as studentname, k.classname, k.timesheettime, k.status, k.rating from jmwj_xueyuan_kaoqin k, jmwj_xueyuan x 
+			where k.studentid = x.id and k.classname = #{classname} and k.timesheettime = #{timesheettime,jdbcType=DATE} order by x.name
+	</select>
+	
+	<select id="getXueYuanKaoQinByXueYuanAndZhuangTai" parameterType="java.util.Map" resultType="JMWJ.KaoQin.XueYuanKaoQinBean">
+		select k.id, k.studentid, x.name as studentname, k.classname, k.timesheettime, k.status, k.rating from jmwj_xueyuan_kaoqin k, jmwj_xueyuan x 
+			where k.studentid = x.id and k.studentid = #{studentid,jdbcType=INTEGER} and k.status = #{status}) order by k.timesheettime
+	</select>
+	
+	<insert id="createXueYuanKaoQin" parameterType="JMWJ.KaoQin.XueYuanKaoQinBean"
+		useGeneratedKeys="true" keyProperty="id" flushCache="true">
+		insert into
+		jmwj_xueyuan_kaoqin(studentid,classname,timesheettime,status,rating)
+		values
+		(#{studentid},#{classname},#{timesheettime,jdbcType=DATE},#{status},#{rating})
+	</insert>
+
+	<update id="modifyXueYuanKaoQin" parameterType="JMWJ.KaoQin.XueYuanKaoQinBean">
+		update jmwj_xueyuan_kaoqin
+		<set>
+			<if test="studentid != 0 ">
+				studentid = #{studentid},
+			</if>
+			<if test="classname != null ">
+				classname = #{classname},
+			</if>
+			<if test="timesheettime != null ">
+				timesheettime = #{timesheettime,jdbcType=DATE},
+			</if>
+			<if test="status != null ">
+				status = #{status},
+			</if>
+			<if test="rating != 0 ">
+				rating = #{rating},
+			</if>
+		</set>
+		where id = #{id}
+	</update>
+
+	<delete id="removeKaoQinByBanJi" parameterType="String">
+		delete from
+		jmwj_xueyuan_kaoqin
+		where classname = #{classname}
+	</delete>
+</mapper>  

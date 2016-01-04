@@ -1,0 +1,299 @@
+<?xml version='1.0' encoding='GBK' ?>
+
+<!DOCTYPE html>
+<h:html xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head />
+<h:body>
+	<f:view>
+		<p:layout fullPage="true">
+
+			<p:layoutUnit position="north" size="50">
+				<p:outputPanel>
+          	京美舞集教学管理系统
+        </p:outputPanel>
+			</p:layoutUnit>
+			<p:layoutUnit position="west" resizable="true" size="150">
+				<p:accordionPanel activeIndex="2">
+					<p:tab title="学员管理">
+						<p:link href="/xueyuan/xueyuan_manager.xhtml" value="学员管理" />
+					</p:tab>
+					<p:tab title="班级管理">
+						<p:link href="/banji/banji_manager.xhtml" value="班级管理" />
+					</p:tab>
+					<p:tab title="考勤管理">
+						<p:tab title="学员考勤">
+							<h:panelGrid columns="1">
+								<p:commandLink process="@this" update="@all">
+									<h:outputText value="学员考勤登记" />
+									<f:setPropertyActionListener value="3"
+										target="#{xueyuanManagmentBean.activeIndex}"></f:setPropertyActionListener>
+								</p:commandLink>
+							</h:panelGrid>
+						</p:tab>
+					</p:tab>
+				</p:accordionPanel>
+			</p:layoutUnit>
+
+			<p:layoutUnit position="center">
+				<p:tabView id="kaoqintabs">
+					<p:tab title="学员考勤登记">
+
+						<p:panel header="学员考勤登记">
+							<h:form id="form1">
+								<p:panelGrid columns="4" layout="tabular">
+									<p:outputLabel for="classesid2" value="所在班级" />
+									<p:selectOneMenu id="classesid2"
+										value="#{xueyuanBean.classesid}">
+										<f:selectItems value="#{xueyuanManagmentBean.banjiList}"
+											var="banji" itemLabel="#{banji.name}"
+											itemValue="#{banji.name}" />
+									</p:selectOneMenu>
+									<p:commandButton id="querybyclass" value="查询"
+										actionListener="#{xueyuanManagmentBean.querybyclassid}"
+										update="@form:@parent:kaoqinform:xueyuankaoqintable">
+									</p:commandButton>
+
+								</p:panelGrid>
+							</h:form>
+							<p:separator></p:separator>
+							<h:form id="kaoqinform">
+								<p:messages id="savemsg" for="saveKaoQin"
+									severity="info,warn,error" />
+								<p:panelGrid columns="8" layout="tabular">
+									<p:outputLabel value="上课时间" />
+									<p:inputText value="#{kaoqinManagementBean.timesheettime}"
+										label="上课时间">
+										<f:convertDateTime pattern="yyyy/MM/dd" />
+									</p:inputText>
+									<p:separator></p:separator>
+									<p:commandButton id="save1" value="保存"
+										actionListener="#{kaoqinManagementBean.save}"
+										update="kaoqinform"></p:commandButton>
+
+								</p:panelGrid>
+
+								<p:dataTable id="xueyuankaoqintable" var="xueyuan"
+									value="#{xueyuanManagmentBean.xueyuanQueryList}"
+									paginator="false" resizableColumns="true" liveResize="true"
+									rowIndexVar="index" emptyMessage="没有相应结果">
+									<p:column>
+										<f:facet name="header">
+											<h:outputText value="学员姓名" />
+										</f:facet>
+										<h:outputText value="#{xueyuan.name}" />
+
+										<h:inputHidden id="studentId" value="#{xueyuan.id}"></h:inputHidden>
+										<h:inputHidden id="studentName" value="#{xueyuan.name}"></h:inputHidden>
+										<input type="hidden" name="className"
+											value="#{xueyuan.classesid}" />
+									</p:column>
+									<p:column>
+										<f:facet name="header">
+											<h:outputText value="班级名称" />
+										</f:facet>
+										<h:outputText value="#{xueyuan.classesid}">
+										</h:outputText>
+									</p:column>
+									<p:column>
+										<f:facet name="header">
+											<h:outputText value="上课状态" />
+										</f:facet>
+
+										<p:selectOneMenu id="studentstatus">
+											<f:selectItem itemLabel="上课" itemValue="上课" />
+											<f:selectItem itemLabel="请假" itemValue="请假" />
+											<f:selectItem itemLabel="顺延" itemValue="顺延" />
+										</p:selectOneMenu>
+									</p:column>
+									<p:column>
+										<f:facet name="header">
+											<h:outputText value="评价" />
+										</f:facet>
+										<p:rating id="studentrating" value="5" />
+									</p:column>
+
+								</p:dataTable>
+
+							</h:form>
+						</p:panel>
+					</p:tab>
+					<p:tab title="班级考勤记录">
+						<p:panel header="考勤记录查询">
+							<h:form id="form2">
+								<p:panelGrid columns="4" layout="tabular">
+									<p:outputLabel for="className" value="所在班级" />
+									<p:selectOneMenu id="className"
+										value="#{kaoqinManagementBean.className}">
+										<f:selectItems value="#{xueyuanManagmentBean.banjiList}"
+											var="banji" itemLabel="#{banji.name}"
+											itemValue="#{banji.name}" />
+									</p:selectOneMenu>
+									<p:commandButton id="querykaoqinbyclass" value="查询"
+										actionListener="#{kaoqinManagementBean.querybyclassname}"
+										update="@form:kaoqintable1">
+									</p:commandButton>
+
+								</p:panelGrid>
+
+								<p:separator></p:separator>
+
+								<p:dataTable id="kaoqintable1" var="kaoqin"
+									value="#{kaoqinManagementBean.kaoqinQueryList}" editable="true"
+									paginator="true" rows="50" resizableColumns="true"
+									liveResize="true" rowIndexVar="index" rowKey="#{kaoqin.id}"
+									filteredValue="#{kaoqinManagementBean.kaoqinFilteredList}"
+									emptyMessage="没有相应结果">
+									<p:ajax event="filter" global="true"
+										update="@form:kaoqintable1" />
+									<p:ajax event="rowEdit"
+										listener="#{kaoqinManagementBean.changeStatus}" />
+									<p:column filterBy="#{kaoqin.studentname}"
+										filterMatchMode="contains">
+										<f:facet name="header">
+											<h:outputText value="学员姓名" />
+										</f:facet>
+										<h:outputText value="#{kaoqin.studentname}" />
+									</p:column>
+									<p:column>
+										<f:facet name="header">
+											<h:outputText value="班级名称" />
+										</f:facet>
+										<h:outputText value="#{kaoqin.classname}">
+										</h:outputText>
+									</p:column>
+									<p:column sortBy="#{kaoqin.timesheettime}">
+										<f:facet name="header">
+											<h:outputText value="上课日期" />
+										</f:facet>
+										<h:outputText value="#{kaoqin.timesheettime}">
+											<f:convertDateTime pattern="YYYY/MM/dd" timeZone="GMT+8" />
+										</h:outputText>
+									</p:column>
+									<p:column sortBy="#{kaoqin.status}">
+										<f:facet name="header">
+											<h:outputText value="上课状态" />
+										</f:facet>
+										<p:cellEditor>
+											<f:facet name="output">
+												<h:outputText value="#{kaoqin.status}">
+												</h:outputText>
+											</f:facet>
+											<f:facet name="input">
+												<p:selectOneMenu id="status" value="#{kaoqin.status}">
+													<f:selectItem itemLabel="上课" itemValue="上课" />
+													<f:selectItem itemLabel="请假" itemValue="请假" />
+													<f:selectItem itemLabel="顺延" itemValue="顺延" />
+												</p:selectOneMenu>
+											</f:facet>
+										</p:cellEditor>
+									</p:column>
+									<p:column>
+										<f:facet name="header">
+											<h:outputText value="评价" />
+										</f:facet>
+										<h:outputText value="#{kaoqin.rating} 星">
+										</h:outputText>
+									</p:column>
+									<p:column>
+										<f:facet name="header">
+											<h:outputText value="变更" />
+										</f:facet>
+										<p:rowEditor />
+									</p:column>
+								</p:dataTable>
+								<p:separator></p:separator>
+								<p:panelGrid columns="1" layout="tabular">
+									<p:commandButton value="导出到  Excel文件" ajax="false">
+										<p:dataExporter type="xls" target="kaoqintable1"
+											fileName="kaoqin" pageOnly="false" />
+									</p:commandButton>
+								</p:panelGrid>
+							</h:form>
+						</p:panel>
+					</p:tab>
+					<p:tab title="学员考勤记录">
+						<p:panel header="考勤记录查询">
+							<h:form id="form3">
+								<p:panelGrid columns="4" layout="tabular">
+									<p:outputLabel value="学员姓名" />
+									<p:autoComplete value="#{kaoqinManagementBean.studentName}"
+										completeMethod="#{xueyuanManagmentBean.queryByXueyuanName}"
+										var="xueyuan" itemLabel="#{xueyuan.name}"
+										itemValue="#{xueyuan.name}" />
+									<!-- <p:inputText value="#{kaoqinManagementBean.studentName}"
+										label="学员姓名"> -->
+									<!-- </p:inputText> -->
+									<p:commandButton id="querykaoqinbystudent" value="查询"
+										actionListener="#{kaoqinManagementBean.querybystudentname}"
+										update="@form:kaoqintable2">
+									</p:commandButton>
+
+								</p:panelGrid>
+
+								<p:separator></p:separator>
+
+								<p:dataTable id="kaoqintable2" var="kaoqin"
+									value="#{kaoqinManagementBean.kaoqinQueryList}" editable="true"
+									paginator="true" rows="50" resizableColumns="true"
+									liveResize="true" rowIndexVar="index" rowKey="#{kaoqin.id}"
+									filteredValue="#{kaoqinManagementBean.kaoqinFilteredList}"
+									emptyMessage="没有相应结果">
+									<p:ajax event="filter" global="true"
+										update="@form:kaoqintable2" />
+									<p:column>
+										<f:facet name="header">
+											<h:outputText value="学员姓名" />
+										</f:facet>
+										<h:outputText value="#{kaoqin.studentname}" />
+									</p:column>
+									<p:column>
+										<f:facet name="header">
+											<h:outputText value="班级名称" />
+										</f:facet>
+										<h:outputText value="#{kaoqin.classname}">
+										</h:outputText>
+									</p:column>
+									<p:column sortBy="#{kaoqin.timesheettime}">
+										<f:facet name="header">
+											<h:outputText value="上课日期" />
+										</f:facet>
+										<h:outputText value="#{kaoqin.timesheettime}">
+											<f:convertDateTime pattern="YYYY/MM/dd" timeZone="GMT+8" />
+										</h:outputText>
+									</p:column>
+									<p:column filterBy="#{kaoqin.status}"
+										filterMatchMode="contains">
+										<f:facet name="header">
+											<h:outputText value="上课状态" />
+										</f:facet>
+										<h:outputText value="#{kaoqin.status}">
+										</h:outputText>
+									</p:column>
+									<p:column>
+										<f:facet name="header">
+											<h:outputText value="评价" />
+										</f:facet>
+										<h:outputText value="#{kaoqin.rating} 星">
+										</h:outputText>
+									</p:column>
+								</p:dataTable>
+								<p:separator></p:separator>
+								<p:panelGrid columns="1" layout="tabular">
+									<p:commandButton value="导出到  Excel文件" ajax="false">
+										<p:dataExporter type="xls" target="kaoqintable2"
+											fileName="xueyuankaoqin" pageOnly="false" />
+									</p:commandButton>
+								</p:panelGrid>
+							</h:form>
+						</p:panel>
+					</p:tab>
+				</p:tabView>
+			</p:layoutUnit>
+		</p:layout>
+	</f:view>
+</h:body>
+</h:html>

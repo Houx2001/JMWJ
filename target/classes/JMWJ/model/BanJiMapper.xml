@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="model.BanJi">
+
+	<select id="getAllBanJi" resultType="JMWJ.BanJi.BanJiBean">
+		select * from jmwj_banji
+	</select>
+
+	<select id="getBanJiByName" parameterType="String" resultType="JMWJ.BanJi.BanJiBean">
+		select * from jmwj_banji where name like
+		CONCAT('%',#{name},'%')
+	</select>
+
+	<insert id="createBanJi" parameterType="JMWJ.BanJi.BanJiBean"
+		useGeneratedKeys="true" keyProperty="id" flushCache="true">
+		insert into
+		jmwj_banji(name,starttime,studytype,payhour,pay,teachers)
+		values
+		(#{name},#{starttime,jdbcType=DATE},#{studytype},#{payhour},#{pay},#{teachers})
+	</insert>
+
+	<update id="modifyBanJi" parameterType="JMWJ.BanJi.BanJiBean">
+		update jmwj_banji
+		<set>
+			<if test="name != null ">
+				name = #{name},
+			</if>
+			<if test="starttime != null ">
+				starttime = #{starttime,jdbcType=DATE},
+			</if>
+			<if test="studytype != null ">
+				studytype = #{studytype},
+			</if>
+			<if test="payhour != 0 ">
+				payhour = #{payhour},
+			</if>
+			<if test="pay != 0 ">
+				pay = #{pay},
+			</if>
+			<if test="teachers != null ">
+				teachers = #{teachers},
+			</if>
+		</set>
+		where id = #{id}
+	</update>
+
+	<delete id="removeBanJi" parameterType="int">
+		delete from
+		jmwj_banji
+		where id = #{id}
+	</delete>
+</mapper>  
