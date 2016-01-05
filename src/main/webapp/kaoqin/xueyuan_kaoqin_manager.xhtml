@@ -65,10 +65,10 @@
 									severity="info,warn,error" />
 								<p:panelGrid columns="8" layout="tabular">
 									<p:outputLabel value="上课时间" />
-									<p:inputText value="#{kaoqinManagementBean.timesheettime}"
-										label="上课时间">
-										<f:convertDateTime pattern="yyyy/MM/dd" />
-									</p:inputText>
+									<p:calendar id="timesheettime" required="true"
+										value="#{kaoqinManagementBean.timesheettime}"
+										pattern="yyyy/MM/dd" showOn="button">
+									</p:calendar>
 									<p:separator></p:separator>
 									<p:commandButton id="save1" value="保存"
 										actionListener="#{kaoqinManagementBean.save}"
