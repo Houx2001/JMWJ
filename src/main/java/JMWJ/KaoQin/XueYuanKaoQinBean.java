@@ -10,6 +10,8 @@ public class XueYuanKaoQinBean {
 	private Date timesheettime;
 	private String status;
 	private int rating;
+	private double classhours = 1.0;
+	private String comment;
 
 	public int getId() {
 		return id;
@@ -26,7 +28,7 @@ public class XueYuanKaoQinBean {
 	public void setStudentid(int studentid) {
 		this.studentid = studentid;
 	}
-	
+
 	public String getStudentname() {
 		return studentname;
 	}
@@ -66,5 +68,20 @@ public class XueYuanKaoQinBean {
 	public void setRating(int rating) {
 		this.rating = rating;
 	}
-		
+
+	public double getClasshours() {
+		return classhours;
+	}
+
+	public void setClasshours(double classhours) {
+		this.classhours = classhours;
+	}
+
+	public String getComment() {
+		return comment;
+	}
+
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
 }

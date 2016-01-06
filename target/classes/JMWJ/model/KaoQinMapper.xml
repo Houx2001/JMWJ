@@ -7,31 +7,31 @@
 <mapper namespace="model.KaoQin">
 
 	<select id="getXueYuanKaoQinByBanji" parameterType="String" resultType="JMWJ.KaoQin.XueYuanKaoQinBean">
-		select k.id, k.studentid, x.name as studentname, k.classname, k.timesheettime, k.status, k.rating from jmwj_xueyuan_kaoqin k, jmwj_xueyuan x 
+		select k.id, k.studentid, x.name as studentname, k.classname, k.timesheettime, k.status, k.rating, k.classhours, k.comment from jmwj_xueyuan_kaoqin k, jmwj_xueyuan x 
 			where k.studentid = x.id and k.classname = #{classname} order by k.timesheettime, x.name
 	</select>
 	
 	<select id="getXueYuanKaoQinByXueYuan" parameterType="String" resultType="JMWJ.KaoQin.XueYuanKaoQinBean">
-		select k.id, k.studentid, x.name as studentname, k.classname, k.timesheettime, k.status, k.rating from jmwj_xueyuan_kaoqin k, jmwj_xueyuan x 
+		select k.id, k.studentid, x.name as studentname, k.classname, k.timesheettime, k.status, k.rating, k.classhours, k.comment from jmwj_xueyuan_kaoqin k, jmwj_xueyuan x 
 			where k.studentid = x.id and x.name = #{studentname} order by k.timesheettime, k.classname
 	</select>
 	
 	<select id="getXueYuanKaoQinByBanJiAndShiJian" parameterType="java.util.Map" resultType="JMWJ.KaoQin.XueYuanKaoQinBean">
-		select k.id, k.studentid, x.name as studentname, k.classname, k.timesheettime, k.status, k.rating from jmwj_xueyuan_kaoqin k, jmwj_xueyuan x 
+		select k.id, k.studentid, x.name as studentname, k.classname, k.timesheettime, k.status, k.rating, k.classhours, k.comment from jmwj_xueyuan_kaoqin k, jmwj_xueyuan x 
 			where k.studentid = x.id and k.classname = #{classname} and k.timesheettime = #{timesheettime,jdbcType=DATE} order by x.name
 	</select>
 	
 	<select id="getXueYuanKaoQinByXueYuanAndZhuangTai" parameterType="java.util.Map" resultType="JMWJ.KaoQin.XueYuanKaoQinBean">
-		select k.id, k.studentid, x.name as studentname, k.classname, k.timesheettime, k.status, k.rating from jmwj_xueyuan_kaoqin k, jmwj_xueyuan x 
+		select k.id, k.studentid, x.name as studentname, k.classname, k.timesheettime, k.status, k.rating, k.classhours, k.comment from jmwj_xueyuan_kaoqin k, jmwj_xueyuan x 
 			where k.studentid = x.id and k.studentid = #{studentid,jdbcType=INTEGER} and k.status = #{status}) order by k.timesheettime
 	</select>
 	
 	<insert id="createXueYuanKaoQin" parameterType="JMWJ.KaoQin.XueYuanKaoQinBean"
 		useGeneratedKeys="true" keyProperty="id" flushCache="true">
 		insert into
-		jmwj_xueyuan_kaoqin(studentid,classname,timesheettime,status,rating)
+		jmwj_xueyuan_kaoqin(studentid,classname,timesheettime,status,rating,classhours,comment)
 		values
-		(#{studentid},#{classname},#{timesheettime,jdbcType=DATE},#{status},#{rating})
+		(#{studentid},#{classname},#{timesheettime,jdbcType=DATE},#{status},#{rating},#{classhours},#{comment})
 	</insert>
 
 	<update id="modifyXueYuanKaoQin" parameterType="JMWJ.KaoQin.XueYuanKaoQinBean">
@@ -51,6 +51,12 @@
 			</if>
 			<if test="rating != 0 ">
 				rating = #{rating},
+			</if>
+			<if test="classhours != 0 ">
+				classhours = #{classhours},
+			</if>
+			<if test="comment != null ">
+				comment = #{comment},
 			</if>
 		</set>
 		where id = #{id}

@@ -69,6 +69,10 @@
 										value="#{kaoqinManagementBean.timesheettime}"
 										pattern="yyyy/MM/dd" showOn="button">
 									</p:calendar>
+									<p:outputLabel value="¿ÎÊ± £¨Ð¡Ê±£©" />
+									<p:spinner id="classhours"
+										value="#{kaoqinManagementBean.classhours}" min="0.5" max="10"
+										required="true" />
 									<p:separator></p:separator>
 									<p:commandButton id="save1" value="±£´æ"
 										actionListener="#{kaoqinManagementBean.save}"
@@ -188,9 +192,17 @@
 													<f:selectItem itemLabel="ÉÏ¿Î" itemValue="ÉÏ¿Î" />
 													<f:selectItem itemLabel="Çë¼Ù" itemValue="Çë¼Ù" />
 													<f:selectItem itemLabel="Ë³ÑÓ" itemValue="Ë³ÑÓ" />
+													<f:selectItem itemLabel="¿Õ°×" itemValue="¿Õ°×" />
 												</p:selectOneMenu>
 											</f:facet>
 										</p:cellEditor>
+									</p:column>
+									<p:column>
+										<f:facet name="header">
+											<h:outputText value="¿ÎÊ±£¨Ð¡Ê±£©" />
+										</f:facet>
+										<h:outputText value="#{kaoqin.classhours}">
+										</h:outputText>
 									</p:column>
 									<p:column>
 										<f:facet name="header">

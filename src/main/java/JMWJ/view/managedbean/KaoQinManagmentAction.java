@@ -32,6 +32,7 @@ public class KaoQinManagmentAction {
 	private String className;
 	private String studentName;
 	private Date timesheettime = new Date();
+	private double classhours = 1.0;
 	private List<XueYuanKaoQinBean> kaoqinQueryList;
 	private List<XueYuanKaoQinBean> kaoqinFilteredList;
 	private XueYuanKaoQinBean selectedKaoQin;
@@ -50,6 +51,14 @@ public class KaoQinManagmentAction {
 
 	public void setStudentName(String studentName) {
 		this.studentName = studentName;
+	}
+
+	public double getClasshours() {
+		return classhours;
+	}
+
+	public void setClasshours(double classhours) {
+		this.classhours = classhours;
 	}
 
 	public List<XueYuanKaoQinBean> getKaoqinQueryList() {
@@ -131,6 +140,7 @@ public class KaoQinManagmentAction {
 				kaoqinBean.setTimesheettime(timesheettime);
 				kaoqinBean.setStatus(studentstatus.get(i));
 				kaoqinBean.setRating(Integer.parseInt(rating.get(i)));
+				kaoqinBean.setClasshours(classhours);
 				try {
 					kaoqinDao.createXueYuanKaoQin(kaoqinBean);
 
@@ -139,6 +149,7 @@ public class KaoQinManagmentAction {
 					facesContext.addMessage("saveKaoQin",
 							new FacesMessage(FacesMessage.SEVERITY_ERROR,
 									ERROR_MSG, e.toString()));
+					return;
 				}
 			}
 			facesContext.addMessage("saveKaoQin", new FacesMessage(
