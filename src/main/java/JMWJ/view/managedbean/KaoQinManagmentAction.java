@@ -123,6 +123,9 @@ public class KaoQinManagmentAction {
 		if (studentId != null && studentId.size() != 0) {
 			for (int i = 0; i < studentId.size(); i++) {
 				XueYuanKaoQinBean kaoqinBean = new XueYuanKaoQinBean();
+				if (studentstatus.get(i).trim().equals("空白")) {
+					continue;
+				}
 				kaoqinBean.setStudentid(Integer.parseInt(studentId.get(i)));
 				kaoqinBean.setClassname(reqParams.get("className"));
 				kaoqinBean.setTimesheettime(timesheettime);
