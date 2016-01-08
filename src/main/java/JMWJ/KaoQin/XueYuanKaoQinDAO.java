@@ -24,7 +24,8 @@ public class XueYuanKaoQinDAO {
 		List<XueYuanKaoQinBean> listKaoQin = null;
 		try {
 			session = getSqlSession();
-			listKaoQin = session.selectList("getXueYuanKaoQinByBanji", className);
+			listKaoQin = session.selectList("getXueYuanKaoQinByBanji",
+					className);
 			session.commit();
 
 		} catch (ConfigurationException e) {
@@ -163,6 +164,27 @@ public class XueYuanKaoQinDAO {
 		try {
 			session = getSqlSession();
 			session.delete("removeKaoQinByBanJi", className);
+			session.commit();
+		} catch (ConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+
+		}
+	}
+
+	public void removeKaoQinById(int id) {
+		SqlSession session = null;
+
+		try {
+			session = getSqlSession();
+			session.delete("removeKaoQinById", id);
 			session.commit();
 		} catch (ConfigurationException e) {
 			// TODO Auto-generated catch block

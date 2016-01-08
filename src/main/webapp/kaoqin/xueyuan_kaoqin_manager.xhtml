@@ -201,8 +201,16 @@
 										<f:facet name="header">
 											<h:outputText value="课时（小时）" />
 										</f:facet>
-										<h:outputText value="#{kaoqin.classhours}">
-										</h:outputText>
+										<p:cellEditor>
+											<f:facet name="output">
+												<h:outputText value="#{kaoqin.classhours}">
+												</h:outputText>
+											</f:facet>
+											<f:facet name="input">
+												<p:inputText value="#{kaoqin.classhours}" type="number">
+												</p:inputText>
+											</f:facet>
+										</p:cellEditor>
 									</p:column>
 									<p:column>
 										<f:facet name="header">
@@ -257,6 +265,8 @@
 									emptyMessage="没有相应结果">
 									<p:ajax event="filter" global="true"
 										update="@form:kaoqintable2" />
+									<p:ajax event="rowEdit"
+										listener="#{kaoqinManagementBean.changeStatus}" />
 									<p:column>
 										<f:facet name="header">
 											<h:outputText value="学员姓名" />
@@ -283,8 +293,35 @@
 										<f:facet name="header">
 											<h:outputText value="上课状态" />
 										</f:facet>
-										<h:outputText value="#{kaoqin.status}">
-										</h:outputText>
+										<p:cellEditor>
+											<f:facet name="output">
+												<h:outputText value="#{kaoqin.status}">
+												</h:outputText>
+											</f:facet>
+											<f:facet name="input">
+												<p:selectOneMenu id="status" value="#{kaoqin.status}">
+													<f:selectItem itemLabel="上课" itemValue="上课" />
+													<f:selectItem itemLabel="请假" itemValue="请假" />
+													<f:selectItem itemLabel="顺延" itemValue="顺延" />
+													<f:selectItem itemLabel="空白" itemValue="空白" />
+												</p:selectOneMenu>
+											</f:facet>
+										</p:cellEditor>
+									</p:column>
+									<p:column>
+										<f:facet name="header">
+											<h:outputText value="课时（小时）" />
+										</f:facet>
+										<p:cellEditor>
+											<f:facet name="output">
+												<h:outputText value="#{kaoqin.classhours}">
+												</h:outputText>
+											</f:facet>
+											<f:facet name="input">
+												<p:inputText value="#{kaoqin.classhours}" type="number">
+												</p:inputText>
+											</f:facet>
+										</p:cellEditor>
 									</p:column>
 									<p:column>
 										<f:facet name="header">
@@ -292,6 +329,12 @@
 										</f:facet>
 										<h:outputText value="#{kaoqin.rating} 星">
 										</h:outputText>
+									</p:column>
+									<p:column>
+										<f:facet name="header">
+											<h:outputText value="变更" />
+										</f:facet>
+										<p:rowEditor />
 									</p:column>
 								</p:dataTable>
 								<p:separator></p:separator>

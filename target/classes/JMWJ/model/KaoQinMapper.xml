@@ -67,4 +67,10 @@
 		jmwj_xueyuan_kaoqin
 		where classname = #{classname}
 	</delete>
+	
+	<delete id="removeKaoQinById" parameterType="int">
+		delete from
+		jmwj_xueyuan_kaoqin
+		where id = #{id}
+	</delete>
 </mapper>  

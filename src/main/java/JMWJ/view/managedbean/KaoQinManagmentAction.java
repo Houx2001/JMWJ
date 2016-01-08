@@ -10,7 +10,6 @@ import java.util.Map;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.component.UIComponent;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
@@ -169,6 +168,10 @@ public class KaoQinManagmentAction {
 
 	public void changeStatus(RowEditEvent ev) {
 		XueYuanKaoQinBean kaoqinBean = (XueYuanKaoQinBean) ev.getObject();
+		if (kaoqinBean.getStatus().trim().equals("空白")) {
+			kaoqinDao.removeKaoQinById(kaoqinBean.getId());
+			return;
+		}
 		kaoqinDao.modifyXueYuanKaoQin(kaoqinBean);
 	}
 }

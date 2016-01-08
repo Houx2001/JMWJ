@@ -41,7 +41,7 @@ public class XueYuanManagmentAction {
 		}
 	}
 
-	public void querybyclassid() {
+	public void querybyclassid(ActionEvent ev) {
 		FacesContext facesContext = FacesContext.getCurrentInstance();
 		HttpServletRequest req = (HttpServletRequest) facesContext
 				.getExternalContext().getRequest();
