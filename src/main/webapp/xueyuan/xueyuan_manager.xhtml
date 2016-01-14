@@ -136,56 +136,60 @@
 						</p:panel>
 
 						<p:panel header="学员列表">
-							<p:dataTable id="xueyuantable" var="xueyuan"
-								value="#{xueyuanManagmentBean.xueyuanList}" paginator="true"
-								rows="25" resizableColumns="true" liveResize="true">
-								<p:column filterable="true">
-									<f:facet name="header">
-										<h:outputText value="学员姓名" />
-									</f:facet>
-									<h:outputText value="#{xueyuan.name}" />
-								</p:column>
-								<p:column>
-									<f:facet name="header">
-										<h:outputText value="性别" />
-									</f:facet>
-									<h:outputText value="#{xueyuan.sex}" />
-								</p:column>
-								<p:column>
-									<f:facet name="header">
-										<h:outputText value="教育类型" />
-									</f:facet>
-									<h:outputText value="#{xueyuan.degree}" />
-								</p:column>
-								<p:column>
-									<f:facet name="header">
-										<h:outputText value="出生日期" />
-									</f:facet>
-									<h:outputText value="#{xueyuan.birthday}">
-										<f:convertDateTime pattern="YYYY/MM/dd" timeZone="GMT+8"/>
-									</h:outputText>
-								</p:column>
-								<p:column>
-									<f:facet name="header">
-										<h:outputText value="报名日期" />
-									</f:facet>
-									<h:outputText value="#{xueyuan.startday}">
-										<f:convertDateTime pattern="YYYY/MM/dd" timeZone="GMT+8"/>
-									</h:outputText>
-								</p:column>
-								<p:column>
-									<f:facet name="header">
-										<h:outputText value="母亲姓名" />
-									</f:facet>
-									<h:outputText value="#{xueyuan.mothername}" />
-								</p:column>
-								<p:column>
-									<f:facet name="header">
-										<h:outputText value="母亲手机号" />
-									</f:facet>
-									<h:outputText value="#{xueyuan.mothermobile}" />
-								</p:column>
-								<!-- 
+							<h:form id="form1">
+								<p:dataTable id="xueyuantable" var="xueyuan"
+									value="#{xueyuanManagmentBean.xueyuanList}" paginator="true"
+									rows="25" resizableColumns="true" liveResize="true"
+									editable="true" emptyMessage="没有相应结果">
+									<p:ajax event="rowEdit"
+										listener="#{xueyuanManagmentBean.update}" />
+									<p:column filterable="true">
+										<f:facet name="header">
+											<h:outputText value="学员姓名" />
+										</f:facet>
+										<h:outputText value="#{xueyuan.name}" />
+									</p:column>
+									<p:column>
+										<f:facet name="header">
+											<h:outputText value="性别" />
+										</f:facet>
+										<h:outputText value="#{xueyuan.sex}" />
+									</p:column>
+									<p:column>
+										<f:facet name="header">
+											<h:outputText value="教育类型" />
+										</f:facet>
+										<h:outputText value="#{xueyuan.degree}" />
+									</p:column>
+									<p:column>
+										<f:facet name="header">
+											<h:outputText value="出生日期" />
+										</f:facet>
+										<h:outputText value="#{xueyuan.birthday}">
+											<f:convertDateTime pattern="yyyy/MM/dd" timeZone="GMT+8" />
+										</h:outputText>
+									</p:column>
+									<p:column>
+										<f:facet name="header">
+											<h:outputText value="报名日期" />
+										</f:facet>
+										<h:outputText value="#{xueyuan.startday}">
+											<f:convertDateTime pattern="yyyy/MM/dd" timeZone="GMT+8" />
+										</h:outputText>
+									</p:column>
+									<p:column>
+										<f:facet name="header">
+											<h:outputText value="母亲姓名" />
+										</f:facet>
+										<h:outputText value="#{xueyuan.mothername}" />
+									</p:column>
+									<p:column>
+										<f:facet name="header">
+											<h:outputText value="母亲手机号" />
+										</f:facet>
+										<h:outputText value="#{xueyuan.mothermobile}" />
+									</p:column>
+									<!-- 
 								<p:column>
 									<f:facet name="header">
 										<h:outputText value="父亲姓名" />
@@ -199,21 +203,41 @@
 									<h:outputText value="#{xueyuan.fathermobile}" />
 								</p:column>
 								-->
-								<p:column sortable="true">
-									<f:facet name="header">
-										<h:outputText value="所报课时" />
-									</f:facet>
-									<h:outputText value="#{xueyuan.givehours}" />
-								</p:column>
-								<p:column>
-									<f:facet name="header">
-										<h:outputText value="所在班级" />
-									</f:facet>
-									<h:outputText value="#{xueyuan.classesid}" />
-								</p:column>
-							</p:dataTable>
+									<p:column sortable="true">
+										<f:facet name="header">
+											<h:outputText value="所报课时" />
+										</f:facet>
+										<p:cellEditor>
+											<f:facet name="output">
+												<h:outputText value="#{xueyuan.givehours}" />
+											</f:facet>
+											<f:facet name="input">
+												<p:inputText value="#{xueyuan.givehours}" type="number" />
+											</f:facet>
+										</p:cellEditor>
+									</p:column>
+									<p:column>
+										<f:facet name="header">
+											<h:outputText value="所在班级" />
+										</f:facet>
+										<p:cellEditor>
+											<f:facet name="output">
+												<h:outputText value="#{xueyuan.classesid}" />
+											</f:facet>
+											<f:facet name="input">
+												<p:inputText value="#{xueyuan.classesid}" />
+											</f:facet>
+										</p:cellEditor>
+									</p:column>
+									<p:column>
+										<f:facet name="header">
+											<h:outputText value="变更" />
+										</f:facet>
+										<p:rowEditor />
+									</p:column>
+								</p:dataTable>
+							</h:form>
 						</p:panel>
-
 					</p:tab>
 					<p:tab title="按班级查询">
 						<p:panel header="班级学员">
@@ -262,7 +286,7 @@
 											<h:outputText value="出生日期" />
 										</f:facet>
 										<h:outputText value="#{xueyuan.birthday}">
-											<f:convertDateTime pattern="YYYY/MM/dd" timeZone="GMT+8"/>
+											<f:convertDateTime pattern="yyyy/MM/dd" timeZone="GMT+8" />
 										</h:outputText>
 									</p:column>
 									<p:column>
@@ -270,7 +294,7 @@
 											<h:outputText value="报名日期" />
 										</f:facet>
 										<h:outputText value="#{xueyuan.startday}">
-											<f:convertDateTime pattern="YYYY/MM/dd" timeZone="GMT+8"/>
+											<f:convertDateTime pattern="yyyy/MM/dd" timeZone="GMT+8" />
 										</h:outputText>
 									</p:column>
 									<p:column>

@@ -1,21 +1,27 @@
 package JMWJ.view.managedbean;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.configuration.ConfigurationException;
+import org.primefaces.event.RowEditEvent;
 
 import JMWJ.BanJi.BanJiBean;
 import JMWJ.BanJi.BanJiDAO;
 import JMWJ.XueYuan.XueYuanBean;
 import JMWJ.XueYuan.XueYuanDAO;
 
-public class XueYuanManagmentAction {
+@ManagedBean(name = "xueyuanManagmentBean")
+@ViewScoped
+public class XueYuanManagmentAction implements Serializable {
 
 	private XueYuanDAO xueyuanDao = new XueYuanDAO();
 	private BanJiDAO banjiDao = new BanJiDAO();
@@ -61,10 +67,18 @@ public class XueYuanManagmentAction {
 
 	public List<XueYuanBean> getXueyuanList() throws ConfigurationException,
 			IOException {
-		return xueyuanDao.getAllXueYuan();
+		if (this.xueyuanQueryList == null) {
+			this.xueyuanQueryList = xueyuanDao.getAllXueYuan();
+		}
+		return this.xueyuanQueryList;
 	}
 
-	public List<XueYuanBean> queryByXueyuanName(String name) throws ConfigurationException, IOException {
+	public void setXueyuanList(List<XueYuanBean> xueyuanQueryList) {
+		this.xueyuanQueryList = xueyuanQueryList;
+	}
+
+	public List<XueYuanBean> queryByXueyuanName(String name)
+			throws ConfigurationException, IOException {
 		return xueyuanDao.getXueYuanByName(name);
 	}
 
@@ -84,4 +98,9 @@ public class XueYuanManagmentAction {
 		this.xueyuanQueryList = xueyuanQueryList;
 	}
 
+	public void update(RowEditEvent ev) throws ConfigurationException,
+			IOException {
+		XueYuanBean xueyuanBean = (XueYuanBean) ev.getObject();
+		xueyuanDao.modifyXueYuan(xueyuanBean);
+	}
 }
