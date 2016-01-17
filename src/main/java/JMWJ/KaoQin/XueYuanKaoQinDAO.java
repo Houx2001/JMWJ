@@ -1,6 +1,7 @@
 package JMWJ.KaoQin;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -199,4 +200,27 @@ public class XueYuanKaoQinDAO {
 
 		}
 	}
+
+	@SuppressWarnings("finally")
+	public List<Map> totalXueYuanKaoQinHours(String studentName) {
+		List<Map> totalList = null;
+		try {
+			session = getSqlSession();
+			totalList = session.selectList(
+					"totalXueYuanKaoQinHoursGroupByStatus", studentName);
+			session.commit();
+		} catch (ConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+		}
+		return totalList;
+	}
+
 }

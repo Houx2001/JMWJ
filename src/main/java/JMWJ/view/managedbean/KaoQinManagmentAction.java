@@ -35,6 +35,7 @@ public class KaoQinManagmentAction {
 	private List<XueYuanKaoQinBean> kaoqinQueryList;
 	private List<XueYuanKaoQinBean> kaoqinFilteredList;
 	private XueYuanKaoQinBean selectedKaoQin;
+	private List<Map> totalHours;
 
 	public String getClassName() {
 		return className;
@@ -90,6 +91,14 @@ public class KaoQinManagmentAction {
 
 	public void setSelectedKaoQin(XueYuanKaoQinBean selectedKaoQin) {
 		this.selectedKaoQin = selectedKaoQin;
+	}
+
+	public List<Map> getTotalHours() {
+		return totalHours;
+	}
+
+	public void setTotalHours(List<Map> totalHours) {
+		this.totalHours = totalHours;
 	}
 
 	public void save(ActionEvent ev) {
@@ -164,6 +173,7 @@ public class KaoQinManagmentAction {
 	public void querybystudentname(ActionEvent ev) {
 
 		kaoqinQueryList = kaoqinDao.getXueYuanKaoQinByXueYuan(studentName);
+		totalHours = kaoqinDao.totalXueYuanKaoQinHours(studentName);
 	}
 
 	public void changeStatus(RowEditEvent ev) {

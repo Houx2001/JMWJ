@@ -26,6 +26,11 @@
 			where k.studentid = x.id and k.studentid = #{studentid,jdbcType=INTEGER} and k.status = #{status}) order by k.timesheettime
 	</select>
 	
+	<select id="totalXueYuanKaoQinHoursGroupByStatus" parameterType="String" resultType="hashmap">
+		select x.name as studentname, k.status as status, sum(k.classhours) as totalhours from jmwj_xueyuan_kaoqin k, jmwj_xueyuan x 
+			where k.studentid = x.id and x.name = #{studentname} group by k.status
+	</select>
+		
 	<insert id="createXueYuanKaoQin" parameterType="JMWJ.KaoQin.XueYuanKaoQinBean"
 		useGeneratedKeys="true" keyProperty="id" flushCache="true">
 		insert into
