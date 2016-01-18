@@ -334,7 +334,7 @@
 										<p:rowEditor />
 									</p:column>
 									<p:columnGroup type="footer">
-										<p:row>
+										<p:row style="font-weight: bold">
 											<c:forEach items="#{kaoqinManagementBean.totalHours}"
 												var="totalHours">
 												<p:column style="text-align:right">
@@ -343,18 +343,33 @@
 													</f:facet>
 												</p:column>
 												<p:column footerText="#{totalHours.totalhours} 小时" />
-												<c:set var="total" value="#{total + totalHours.totalhours}" />
+												<c:if test="#{!fn:contains(totalHours.status, '请假')}">
+													<c:set var="total" value="#{total + totalHours.totalhours}" />
+												</c:if>
 											</c:forEach>
 										</p:row>
-										<p:row>
+										<p:row style="font-weight: bold">
 											<c:if
 												test="#{fn:length(kaoqinManagementBean.totalHours) > 0}">
 												<p:column style="text-align:right">
 													<f:facet name="footer">
-														<h:outputText value="课时总计:" />
+														<h:outputText value="缴费课时总计:" />
+													</f:facet>
+												</p:column>
+												<p:column
+													footerText="#{kaoqinManagementBean.totalHours[0].givehours} 小时" />
+												<p:column style="text-align:right">
+													<f:facet name="footer">
+														<h:outputText value="有效课时总计:" />
 													</f:facet>
 												</p:column>
 												<p:column footerText="#{total} 小时" />
+												<p:column style="text-align:right">
+													<f:facet name="footer">
+														<h:outputText value="剩余课时总计:" />
+													</f:facet>
+												</p:column>
+												<p:column footerText="#{kaoqinManagementBean.totalHours[0].givehours - total} 小时" />
 											</c:if>
 										</p:row>
 									</p:columnGroup>
