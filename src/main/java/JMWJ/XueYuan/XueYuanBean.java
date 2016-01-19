@@ -4,25 +4,25 @@ import java.util.Date;
 
 public class XueYuanBean {
 
-	private int id;  					//		学员编号									
-	private String name;				//		学员姓名
-	private String sex;					//      性别
-	private String degree;				//		教育类型
-	private Date birthday;				//		出生日期
-	private Date startday;				//		报名日期
+	private int id;  					//		瀛﹀憳缂栧彿									
+	private String name;				//		瀛﹀憳濮撳悕
+	private String sex;					//      鎬у埆
+	private String degree;				//		鏁欒偛绫诲瀷
+	private Date birthday;				//		鍑虹敓鏃ユ湡
+	private Date startday;				//		鎶ュ悕鏃ユ湡
 	private String channel;				//		
-	private String consultant;			//		咨询师
-	private String mobile;				//		本人手机号
-	private String phone;				//		本人座机号
-	private String mothermobile;		//		母亲手机号
-	private String fathermobile;		//		父亲手机号
-	private String address;				//		联系地址
-	private String mothername;			//		母亲姓名
-	private String fathername;			//		父亲姓名
-	private int givehours;				//		所报课时
-	private String classesid;			//		所在班级
-	private String extend1;				//		保留字段1
-	private String extend2;				//		保留字段2
+	private String consultant;			//		鍜ㄨ甯�
+	private String mobile;				//		鏈汉鎵嬫満鍙�
+	private String phone;				//		鏈汉搴ф満鍙�
+	private String mothermobile;		//		姣嶄翰鎵嬫満鍙�
+	private String fathermobile;		//		鐖朵翰鎵嬫満鍙�
+	private String address;				//		鑱旂郴鍦板潃
+	private String mothername;			//		姣嶄翰濮撳悕
+	private String fathername;			//		鐖朵翰濮撳悕
+	private int givehours;				//		鎵�鎶ヨ鏃�
+	private String classesid;			//		鎵�鍦ㄧ彮绾�
+	private double classhours = 1.0;	//		
+	private String extend2;				//		淇濈暀瀛楁2
 	public int getId() {
 		return id;
 	}
@@ -126,11 +126,11 @@ public class XueYuanBean {
 	public void setClassesid(String classesid) {
 		this.classesid = classesid;
 	}
-	public String getExtend1() {
-		return extend1;
+	public double getClasshours() {
+		return classhours;
 	}
-	public void setExtend1(String extend1) {
-		this.extend1 = extend1;
+	public void setClasshours(double classhours) {
+		this.classhours = classhours;
 	}
 	public String getExtend2() {
 		return extend2;

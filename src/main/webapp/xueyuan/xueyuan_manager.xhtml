@@ -52,7 +52,7 @@
 						<p:panel header="登记报名">
 							<h:form>
 								<p:messages id="savemsg" for="saveXueYuan" severity="info,error" />
-								<p:panelGrid columns="6" layout="tabular">
+								<p:panelGrid columns="6" layout="tabular" style="font-size: 16px">
 									<p:outputLabel for="name" value="学员姓名" />
 									<p:inputText id="name" required="true"
 										value="#{xueyuanBean.name}" label="学员姓名" />
@@ -72,15 +72,15 @@
 									</p:selectOneMenu>
 
 									<p:outputLabel for="birthday" value="出生日期" />
-									<p:inputText id="birthday" required="true" type="date"
-										value="#{xueyuanBean.birthday}" label="出生日期">
-										<f:convertDateTime pattern="yyyy-MM-dd" />
-									</p:inputText>
+									<p:calendar id="birthday" required="true"
+										value="#{xueyuanBean.birthday}"
+										pattern="yyyy/MM/dd" showOn="button">
+									</p:calendar>
 									<p:outputLabel for="startday" value="报名日期" />
-									<p:inputText id="startday" required="true" type="date"
-										value="#{xueyuanBean.startday}" label="报名日期">
-										<f:convertDateTime pattern="yyyy-MM-dd" />
-									</p:inputText>
+									<p:calendar id="startday" required="true"
+										value="#{xueyuanBean.startday}"
+										pattern="yyyy/MM/dd" showOn="button">
+									</p:calendar>
 									<p:outputLabel for="channel" value="信息来源" />
 									<p:selectOneMenu id="channel" value="#{xueyuanBean.channel}">
 										<f:selectItem itemLabel="朋友推荐" itemValue="朋友推荐" />
@@ -111,7 +111,7 @@
 									<p:outputLabel for="classesid" value="所在班级" />
 									<p:selectOneMenu id="classesid" required="true"
 										value="#{xueyuanBean.classesid}">
-										<f:selectItems value="#{xueyuanManagmentBean.banjiList}"
+										<f:selectItems value="#{banjiManagmentBean.banjiList}"
 											var="banji" itemLabel="#{banji.name}"
 											itemValue="#{banji.name}" />
 									</p:selectOneMenu>
@@ -119,13 +119,12 @@
 									<p:outputLabel for="mobile" value="本人手机号" />
 									<p:inputText id="mobile" value="#{xueyuanBean.mobile}"
 										label="本人手机号" />
-									<p:outputLabel for="phone" value="本人座机号" />
-									<p:inputText id="phone" value="#{xueyuanBean.phone}"
-										label="本人座机号" />
 									<p:outputLabel for="consultant" value="咨询师" />
 									<p:inputText id="consultant" value="#{xueyuanBean.consultant}"
 										label="咨询师" />
-
+									<p:outputLabel for="classhours" value="小时/课时" />
+									<p:inputText id="classhours" value="#{xueyuanBean.classhours}"
+										label="小时/课时" type="number" />
 								</p:panelGrid>
 								<p:separator></p:separator>
 								<p:commandButton id="save" value="保存"
@@ -143,7 +142,8 @@
 									editable="true" emptyMessage="没有相应结果">
 									<p:ajax event="rowEdit"
 										listener="#{xueyuanManagmentBean.update}" />
-									<p:column filterable="true">
+									<p:column filterable="true" filterBy="#{xueyuan.name}"
+										filterMatchMode="contains">
 										<f:facet name="header">
 											<h:outputText value="学员姓名" />
 										</f:facet>
@@ -247,7 +247,7 @@
 									<p:outputLabel for="classesid2" value="所在班级" />
 									<p:selectOneMenu id="classesid2"
 										value="#{xueyuanBean.classesid}">
-										<f:selectItems value="#{xueyuanManagmentBean.banjiList}"
+										<f:selectItems value="#{banjiManagmentBean.banjiList}"
 											var="banji" itemLabel="#{banji.name}"
 											itemValue="#{banji.name}" />
 									</p:selectOneMenu>

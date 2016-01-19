@@ -127,6 +127,83 @@
 							</h:form>
 						</p:panel>
 					</p:tab>
+					<p:tab title="学员考勤补录">
+						<p:panel header="考勤补录">
+							<h:form id="kaoqinbuluform">
+								<p:messages for="additionsaveKaoQin" severity="info,warn,error" />
+								<p:panelGrid columns="8" layout="tabular">
+									<p:outputLabel value="上课时间" />
+									<p:calendar id="bulutimesheettime" required="true"
+										value="#{kaoqinManagementBean.timesheettime}"
+										pattern="yyyy/MM/dd" showOn="button">
+									</p:calendar>
+									<p:separator></p:separator>
+									<p:commandButton id="add" value="新增考勤记录"
+										actionListener="#{kaoqinManagementBean.add}"
+										update="kaoqinbuluform"></p:commandButton>
+									<p:commandButton id="save2" value="保存"
+										actionListener="#{kaoqinManagementBean.additionsave}"
+										update="kaoqinbuluform"></p:commandButton>
+								</p:panelGrid>
+								<p:separator />
+								<div class="ui-datatable ui-widget ui-datatable-tablewrapper">
+									<table role="grid">
+										<thead>
+											<tr role="row">
+												<th role="columnheader" class="ui-state-default"><h:outputText
+														value="学员姓名" /></th>
+												<th role="columnheader" class="ui-state-default"><h:outputText
+														value="班级名称" /></th>
+												<th role="columnheader" class="ui-state-default"><h:outputText
+														value="课时（小时）" /></th>
+												<th role="columnheader" class="ui-state-default"><h:outputText
+														value="上课状态" /></th>
+												<th role="columnheader" class="ui-state-default"><h:outputText
+														value="评价" /></th>
+											</tr>
+										</thead>
+										<tbody class="ui-datatable-data ui-widget-content">
+											<c:forEach var="kaoqinBean"
+												items="#{kaoqinManagementBean.inputKaoQinList}"
+												varStatus="status">
+												<tr class="ui-widget-content ui-datatable-even" role="row">
+													<td role="gridcell" class="ui-editable-column"><p:selectOneMenu
+															id="bulustudentname" value="#{kaoqinBean.studentid}"
+															style="padding-right: 0em; width: 100%">
+															<f:selectItems
+																value="#{xueyuanManagmentBean.xueyuanList}"
+																var="xueyuan" itemLabel="#{xueyuan.name}"
+																itemValue="#{xueyuan.id}" />
+														</p:selectOneMenu></td>
+													<td role="gridcell" class="ui-editable-column"><p:selectOneMenu
+															id="buluclassname" value="#{kaoqinBean.classname}"
+															style="padding-right: 0em; width: 100%">
+															<f:selectItems value="#{banjiManagmentBean.banjiList}"
+																var="banji" itemLabel="#{banji.name}"
+																itemValue="#{banji.name}" />
+														</p:selectOneMenu></td>
+													<td role="gridcell" class="ui-editable-column"><p:inputText
+															value="#{kaoqinBean.classhours}" type="number"
+															style="padding-right: 0em; width: 100%" /></td>
+													<td role="gridcell" class="ui-editable-column"><p:selectOneMenu
+															id="bulustatus" value="#{kaoqinBean.status}"
+															style="padding-right: 0em; width: 100%">
+															<f:selectItem itemLabel="上课" itemValue="上课" />
+															<f:selectItem itemLabel="请假" itemValue="请假" />
+															<f:selectItem itemLabel="顺延" itemValue="顺延" />
+															<f:selectItem itemLabel="空白" itemValue="空白" />
+														</p:selectOneMenu></td>
+													<td role="gridcell" class="ui-editable-column"><p:rating
+															id="bulustudentrating" value="#{kaoqinBean.rating}"
+															style="padding-right: 0em; width: 100%" /></td>
+												</tr>
+											</c:forEach>
+										</tbody>
+									</table>
+								</div>
+							</h:form>
+						</p:panel>
+					</p:tab>
 					<p:tab title="班级考勤记录">
 						<p:panel header="考勤记录查询">
 							<h:form id="form2">
@@ -275,8 +352,19 @@
 										<f:facet name="header">
 											<h:outputText value="班级名称" />
 										</f:facet>
-										<h:outputText value="#{kaoqin.classname}">
-										</h:outputText>
+										<p:cellEditor>
+											<f:facet name="output">
+												<h:outputText value="#{kaoqin.classname}">
+												</h:outputText>
+											</f:facet>
+											<f:facet name="input">
+												<p:selectOneMenu value="#{kaoqin.classname}">
+													<f:selectItems value="#{banjiManagmentBean.banjiList}"
+														var="banji" itemLabel="#{banji.name}"
+														itemValue="#{banji.name}" />
+												</p:selectOneMenu>
+											</f:facet>
+										</p:cellEditor>
 									</p:column>
 									<p:column sortBy="#{kaoqin.timesheettime}">
 										<f:facet name="header">
@@ -301,6 +389,7 @@
 													<f:selectItem itemLabel="请假" itemValue="请假" />
 													<f:selectItem itemLabel="顺延" itemValue="顺延" />
 													<f:selectItem itemLabel="空白" itemValue="空白" />
+													<f:selectItem itemLabel="已补课" itemValue="已补课" />
 												</p:selectOneMenu>
 											</f:facet>
 										</p:cellEditor>
@@ -337,12 +426,14 @@
 										<p:row style="font-weight: bold">
 											<c:forEach items="#{kaoqinManagementBean.totalHours}"
 												var="totalHours">
+												<c:if test="#{!fn:contains(totalHours.status, '顺延')}">
 												<p:column style="text-align:right">
 													<f:facet name="footer">
 														<h:outputText value="#{totalHours.status}课时总计:" />
 													</f:facet>
 												</p:column>
 												<p:column footerText="#{totalHours.totalhours} 小时" />
+												</c:if>
 												<c:if test="#{!fn:contains(totalHours.status, '顺延')}">
 													<c:set var="total" value="#{total + totalHours.totalhours}" />
 												</c:if>
@@ -357,7 +448,7 @@
 													</f:facet>
 												</p:column>
 												<p:column
-													footerText="#{kaoqinManagementBean.totalHours[0].givehours} 小时" />
+													footerText="#{kaoqinManagementBean.totalHours[0].givehours * kaoqinManagementBean.totalHours[0].classhours} 小时" />
 												<p:column style="text-align:right">
 													<f:facet name="footer">
 														<h:outputText value="有效课时总计:" />
@@ -370,7 +461,32 @@
 													</f:facet>
 												</p:column>
 												<p:column
-													footerText="#{kaoqinManagementBean.totalHours[0].givehours - total} 小时" />
+													footerText="#{kaoqinManagementBean.totalHours[0].givehours * kaoqinManagementBean.totalHours[0].classhours - total} 小时" />
+											</c:if>
+										</p:row>
+										<p:row style="font-weight: bold">
+											<c:if
+												test="#{fn:length(kaoqinManagementBean.totalHours) > 0}">
+												<p:column style="text-align:right">
+													<f:facet name="footer">
+														<h:outputText value="缴费课时总计:" />
+													</f:facet>
+												</p:column>
+												<p:column
+													footerText="#{kaoqinManagementBean.totalHours[0].givehours} 课时" />
+												<p:column style="text-align:right">
+													<f:facet name="footer">
+														<h:outputText value="有效课时总计:" />
+													</f:facet>
+												</p:column>
+												<p:column footerText="#{total / kaoqinManagementBean.totalHours[0].classhours} 课时" />
+												<p:column style="text-align:right">
+													<f:facet name="footer">
+														<h:outputText value="剩余课时总计:" />
+													</f:facet>
+												</p:column>
+												<p:column
+													footerText="#{kaoqinManagementBean.totalHours[0].givehours - total / kaoqinManagementBean.totalHours[0].classhours} 课时" />
 											</c:if>
 										</p:row>
 									</p:columnGroup>

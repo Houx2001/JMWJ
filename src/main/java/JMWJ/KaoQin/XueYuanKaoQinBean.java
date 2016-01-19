@@ -2,6 +2,9 @@ package JMWJ.KaoQin;
 
 import java.util.Date;
 
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
+
 public class XueYuanKaoQinBean {
 	private int id;
 	private int studentid;

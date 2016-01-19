@@ -25,9 +25,9 @@
 	<insert id="createXueYuan" parameterType="JMWJ.XueYuan.XueYuanBean"
 		useGeneratedKeys="true" keyProperty="id" flushCache="true">
 		insert into
-		jmwj_xueyuan(name,sex,degree,birthday,startday,channel,consultant,mobile,phone,mothermobile,fathermobile,address,mothername,fathername,givehours,classesid)
+		jmwj_xueyuan(name,sex,degree,birthday,startday,channel,consultant,mobile,phone,mothermobile,fathermobile,address,mothername,fathername,givehours,classesid,classhours)
 		values (#{name},
-		#{sex},#{degree},#{birthday,jdbcType=DATE},#{startday,jdbcType=DATE},#{channel},#{consultant},#{mobile},#{phone},#{mothermobile},#{fathermobile},#{address},#{mothername},#{fathername},#{givehours},#{classesid})
+		#{sex},#{degree},#{birthday,jdbcType=DATE},#{startday,jdbcType=DATE},#{channel},#{consultant},#{mobile},#{phone},#{mothermobile},#{fathermobile},#{address},#{mothername},#{fathername},#{givehours},#{classesid},#{classhours})
 	</insert>
 
 	<update id="modifyXueYuan" parameterType="JMWJ.XueYuan.XueYuanBean">
@@ -80,7 +80,10 @@
 				givehours = #{givehours},
 			</if>
 			<if test="classesid != null ">
-				classesid = #{classesid}
+				classesid = #{classesid},
+			</if>
+			<if test="classhours != null ">
+				classhours = #{classhours}
 			</if>
 		</set>
 		where id = #{id}

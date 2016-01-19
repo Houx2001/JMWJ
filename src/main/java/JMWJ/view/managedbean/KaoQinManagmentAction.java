@@ -35,6 +35,7 @@ public class KaoQinManagmentAction {
 	private List<XueYuanKaoQinBean> kaoqinQueryList;
 	private List<XueYuanKaoQinBean> kaoqinFilteredList;
 	private XueYuanKaoQinBean selectedKaoQin;
+	private List<XueYuanKaoQinBean> inputKaoQinList = new ArrayList<XueYuanKaoQinBean>();
 	private List<Map> totalHours;
 
 	public String getClassName() {
@@ -91,6 +92,17 @@ public class KaoQinManagmentAction {
 
 	public void setSelectedKaoQin(XueYuanKaoQinBean selectedKaoQin) {
 		this.selectedKaoQin = selectedKaoQin;
+	}
+
+	public List<XueYuanKaoQinBean> getInputKaoQinList() {
+		if (inputKaoQinList.size() == 0) {
+			inputKaoQinList.add(new XueYuanKaoQinBean());
+		}
+		return inputKaoQinList;
+	}
+
+	public void setInputKaoQinList(List<XueYuanKaoQinBean> inputKaoQinList) {
+		this.inputKaoQinList = inputKaoQinList;
 	}
 
 	public List<Map> getTotalHours() {
@@ -159,6 +171,7 @@ public class KaoQinManagmentAction {
 									ERROR_MSG, e.toString()));
 					return;
 				}
+
 			}
 			facesContext.addMessage("saveKaoQin", new FacesMessage(
 					FacesMessage.SEVERITY_INFO, SAVE_MSG, null));
@@ -183,5 +196,37 @@ public class KaoQinManagmentAction {
 			return;
 		}
 		kaoqinDao.modifyXueYuanKaoQin(kaoqinBean);
+	}
+
+	public void add(ActionEvent ev) {
+		XueYuanKaoQinBean kaoqin = inputKaoQinList.get(0);
+		inputKaoQinList.add(new XueYuanKaoQinBean());
+	}
+
+	public void additionsave(ActionEvent ev) {
+		FacesContext facesContext = FacesContext.getCurrentInstance();
+		if (inputKaoQinList != null && inputKaoQinList.size() != 0) {
+			for (int i = 0; i < inputKaoQinList.size(); i++) {
+				XueYuanKaoQinBean kaoqinBean = inputKaoQinList.get(i);
+				if (kaoqinBean.getStatus().trim().equals("空白")) {
+					continue;
+				}
+				kaoqinBean.setTimesheettime(timesheettime);
+				try {
+					kaoqinDao.createXueYuanKaoQin(kaoqinBean);
+
+				} catch (Exception e) {
+					e.printStackTrace();
+					facesContext.addMessage("additionsaveKaoQin",
+							new FacesMessage(FacesMessage.SEVERITY_ERROR,
+									ERROR_MSG, e.toString()));
+					return;
+				} finally {
+					inputKaoQinList.clear();
+				}
+			}
+			facesContext.addMessage("additionsaveKaoQin", new FacesMessage(
+					FacesMessage.SEVERITY_INFO, SAVE_MSG, null));
+		}
 	}
 }

@@ -27,7 +27,7 @@
 	</select>
 	
 	<select id="totalXueYuanKaoQinHoursGroupByStatus" parameterType="String" resultType="hashmap">
-		select x.name as studentname, k.status as status, sum(k.classhours) as totalhours, x.givehours from jmwj_xueyuan_kaoqin k, jmwj_xueyuan x 
+		select x.name as studentname, k.status as status, sum(k.classhours) as totalhours, x.givehours, x.classhours from jmwj_xueyuan_kaoqin k, jmwj_xueyuan x 
 			where k.studentid = x.id and x.name = #{studentname} group by k.status
 	</select>
 		
