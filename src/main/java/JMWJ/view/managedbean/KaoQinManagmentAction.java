@@ -31,7 +31,7 @@ public class KaoQinManagmentAction {
 	private String className;
 	private String studentName;
 	private Date timesheettime = new Date();
-	private double classhours = 1.0;
+	private double classhours = 1.0D;
 	private List<XueYuanKaoQinBean> kaoqinQueryList;
 	private List<XueYuanKaoQinBean> kaoqinFilteredList;
 	private XueYuanKaoQinBean selectedKaoQin;

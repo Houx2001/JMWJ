@@ -60,11 +60,6 @@ public class XueYuanManagmentAction implements Serializable {
 		}
 	}
 
-	public List<BanJiBean> getBanjiList() throws ConfigurationException,
-			IOException {
-		return banjiDao.getAllBanji();
-	}
-
 	public List<XueYuanBean> getXueyuanList() throws ConfigurationException,
 			IOException {
 		if (this.xueyuanQueryList == null) {
