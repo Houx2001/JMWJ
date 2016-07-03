@@ -23,5 +23,6 @@
     <mapper resource="JMWJ/model/XueYuanMapper.xml"/>
     <mapper resource="JMWJ/model/BanJiMapper.xml"/>
     <mapper resource="JMWJ/model/KaoQinMapper.xml"/>
+    <mapper resource="JMWJ/model/SchoolMapper.xml"/>
   </mappers>
 </configuration>

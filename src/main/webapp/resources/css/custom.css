@@ -1,0 +1,7 @@
+@CHARSET "UTF-8";
+
+.ui-selectonemenu, .ui-selectonemenu .ui-selectonemenu-trigger{
+	padding: 0px !important;
+	padding-left: 0px !important;
+	padding-right: 0px !important;
+}

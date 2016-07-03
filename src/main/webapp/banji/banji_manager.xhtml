@@ -6,160 +6,130 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
-<h:head />
-<h:body>
-	<f:view>
-		<p:layout fullPage="true">
 
-			<p:layoutUnit position="north" size="50">
-				<p:outputPanel>
-          	京美舞集教学管理系统
-        </p:outputPanel>
-			</p:layoutUnit>
-			<p:layoutUnit position="west" resizable="true" size="150">
-				<p:accordionPanel activeIndex="1">
-					<p:tab title="学员管理">
-						<p:link href="/xueyuan/xueyuan_manager.xhtml" value="学员管理" />
-					</p:tab>
-					<p:tab title="班级管理">
-						<h:panelGrid columns="1">
-							<p:commandLink process="@this" update="@all">
-								<h:outputText value="班级管理" />
-								<f:setPropertyActionListener value="1"
-									target="#{xueyuanManagmentBean.activeIndex}"></f:setPropertyActionListener>
-							</p:commandLink>
-						</h:panelGrid>
-					</p:tab>
-					<p:tab title="考勤管理">
-						<p:link href="/kaoqin/xueyuan_kaoqin_manager.xhtml" value="考勤管理" />
-					</p:tab>
-				</p:accordionPanel>
-			</p:layoutUnit>
+<ui:composition template="/template/app_manager_layout.xhtml">
+	<ui:define name="content">
+		<p:tabView id="banjitabs">
+			<p:tab title="班级管理">
 
-			<p:layoutUnit position="center">
-				<p:tabView id="banjitabs">
-					<p:tab title="班级管理">
+				<p:panel header="班级注册">
+					<h:form>
+						<p:messages id="savemsg" for="saveBanJi" severity="info,error" />
+						<p:panelGrid columns="6" layout="tabular">
+							<p:outputLabel for="name" value="班级名称" />
+							<p:inputText id="name" required="true" value="#{banjiBean.name}"
+								label="班级名称" />
+							<p:outputLabel for="starttime" value="开班时间" />
+							<p:inputText id="starttime" required="true" type="date"
+								value="#{banjiBean.starttime}" label="开班时间">
+								<f:convertDateTime pattern="yyyy-MM-dd" />
+							</p:inputText>
+							<p:outputLabel for="studytype" value="上课时间" />
+							<p:inputText id="studytype" value="#{banjiBean.studytype}"
+								label="上课时间" />
+							<p:outputLabel for="payhour" value="上课时长" />
+							<p:spinner id="payhour" value="#{banjiBean.payhour}"
+								required="true" min="1.0" />
+							<p:outputLabel for="pay" value="课时费" />
+							<p:spinner id="pay" value="#{banjiBean.pay}" required="true"
+								min="80" />
+							<p:outputLabel for="teachers" value="任课教师" />
+							<p:inputText id="teachers" value="#{banjiBean.teachers}"
+								label="任课教师" />
+						</p:panelGrid>
+						<p:separator></p:separator>
+						<p:commandButton id="save" value="保存"
+							actionListener="#{banjiManagmentBean.save}" update="@all"></p:commandButton>
 
-						<p:panel header="班级注册">
-							<h:form>
-								<p:messages id="savemsg" for="saveBanJi" severity="info,error" />
-								<p:panelGrid columns="6" layout="tabular">
-									<p:outputLabel for="name" value="班级名称" />
-									<p:inputText id="name" required="true"
-										value="#{banjiBean.name}" label="班级名称" />
-									<p:outputLabel for="starttime" value="开班时间" />
-									<p:inputText id="starttime" required="true" type="date"
-										value="#{banjiBean.starttime}" label="开班时间">
-										<f:convertDateTime pattern="yyyy-MM-dd" />
-									</p:inputText>
-									<p:outputLabel for="studytype" value="上课时间" />
-									<p:inputText id="studytype" value="#{banjiBean.studytype}"
-										label="上课时间" />
-									<p:outputLabel for="payhour" value="上课时长" />
-									<p:spinner id="payhour" value="#{banjiBean.payhour}"
-										required="true" min="1.0" />
-									<p:outputLabel for="pay" value="课时费" />
-									<p:spinner id="pay" value="#{banjiBean.pay}" required="true"
-										min="80" />
-									<p:outputLabel for="teachers" value="任课教师" />
-									<p:inputText id="teachers" value="#{banjiBean.teachers}"
-										label="任课教师" />
-								</p:panelGrid>
-								<p:separator></p:separator>
-								<p:commandButton id="save" value="保存"
-									actionListener="#{banjiManagmentBean.save}" update="@all"></p:commandButton>
+					</h:form>
 
-							</h:form>
+				</p:panel>
 
-						</p:panel>
-
-						<p:panel header="班级列表">
-							<h:form>
-								<p:dataTable id="banjitable" var="banji" editable="true"
-									value="#{banjiManagmentBean.banjiList}" paginator="true"
-									rows="10" resizableColumns="true" liveResize="true"
-									rowKey="#{banji.id}">
-									<p:ajax event="rowEdit"
-										listener="#{banjiManagmentBean.changeBanji}" />
-									<p:column>
-										<f:facet name="header">
-											<h:outputText value="班级名称" />
-										</f:facet>
-										<h:outputText value="#{banji.name}" />
-									</p:column>
-									<p:column>
-										<f:facet name="header">
-											<h:outputText value="开班时间" />
-										</f:facet>
-										<h:outputText value="#{banji.starttime}">
-											<f:convertDateTime pattern="YYYY/MM/dd" timeZone="GMT+8"/>
-										</h:outputText>
-									</p:column>
-									<p:column>
-										<f:facet name="header">
-											<h:outputText value="上课时间" />
-										</f:facet>
-										<p:cellEditor>
-											<f:facet name="output">
-												<h:outputText value="#{banji.studytype}" />
-											</f:facet>
-											<f:facet name="input">
-												<p:inputText value="#{banji.studytype}" />
-											</f:facet>
-										</p:cellEditor>
-									</p:column>
-									<p:column>
-										<f:facet name="header">
-											<h:outputText value="上课时长" />
-										</f:facet>
-										<p:cellEditor>
-											<f:facet name="output">
-												<h:outputText value="#{banji.payhour}" />
-											</f:facet>
-											<f:facet name="input">
-												<p:inputText value="#{banji.payhour}" type="number" />
-											</f:facet>
-										</p:cellEditor>
-									</p:column>
-									<p:column>
-										<f:facet name="header">
-											<h:outputText value="课时费" />
-										</f:facet>
-										<p:cellEditor>
-											<f:facet name="output">
-												<h:outputText value="#{banji.pay}" />
-											</f:facet>
-											<f:facet name="input">
-												<p:inputText value="#{banji.pay}" type="number" />
-											</f:facet>
-										</p:cellEditor>
-									</p:column>
-									<p:column>
-										<f:facet name="header">
-											<h:outputText value="任课教师" />
-										</f:facet>
-										<p:cellEditor>
-											<f:facet name="output">
-												<h:outputText value="#{banji.teachers}" />
-											</f:facet>
-											<f:facet name="input">
-												<p:inputText value="#{banji.teachers}" />
-											</f:facet>
-										</p:cellEditor>
-									</p:column>
-									<!-- <p:column>
+				<p:panel header="班级列表">
+					<h:form>
+						<p:dataTable id="banjitable" var="banji" editable="true"
+							value="#{banjiManagmentBean.banjiList}" paginator="true"
+							rows="10" resizableColumns="true" liveResize="true"
+							rowKey="#{banji.id}" emptyMessage="没有相应结果">
+							<p:ajax event="rowEdit"
+								listener="#{banjiManagmentBean.changeBanji}" />
+							<p:column>
+								<f:facet name="header">
+									<h:outputText value="班级名称" />
+								</f:facet>
+								<h:outputText value="#{banji.name}" />
+							</p:column>
+							<p:column>
+								<f:facet name="header">
+									<h:outputText value="开班时间" />
+								</f:facet>
+								<h:outputText value="#{banji.starttime}">
+									<f:convertDateTime pattern="YYYY/MM/dd" timeZone="GMT+8" />
+								</h:outputText>
+							</p:column>
+							<p:column>
+								<f:facet name="header">
+									<h:outputText value="上课时间" />
+								</f:facet>
+								<p:cellEditor>
+									<f:facet name="output">
+										<h:outputText value="#{banji.studytype}" />
+									</f:facet>
+									<f:facet name="input">
+										<p:inputText value="#{banji.studytype}" />
+									</f:facet>
+								</p:cellEditor>
+							</p:column>
+							<p:column>
+								<f:facet name="header">
+									<h:outputText value="上课时长" />
+								</f:facet>
+								<p:cellEditor>
+									<f:facet name="output">
+										<h:outputText value="#{banji.payhour}" />
+									</f:facet>
+									<f:facet name="input">
+										<p:inputText value="#{banji.payhour}" type="number" />
+									</f:facet>
+								</p:cellEditor>
+							</p:column>
+							<p:column>
+								<f:facet name="header">
+									<h:outputText value="课时费" />
+								</f:facet>
+								<p:cellEditor>
+									<f:facet name="output">
+										<h:outputText value="#{banji.pay}" />
+									</f:facet>
+									<f:facet name="input">
+										<p:inputText value="#{banji.pay}" type="number" />
+									</f:facet>
+								</p:cellEditor>
+							</p:column>
+							<p:column>
+								<f:facet name="header">
+									<h:outputText value="任课教师" />
+								</f:facet>
+								<p:cellEditor>
+									<f:facet name="output">
+										<h:outputText value="#{banji.teachers}" />
+									</f:facet>
+									<f:facet name="input">
+										<p:inputText value="#{banji.teachers}" />
+									</f:facet>
+								</p:cellEditor>
+							</p:column>
+							<!-- <p:column>
 										<f:facet name="header">
 											<h:outputText value="变更" />
 										</f:facet>
 										<p:rowEditor />
 									</p:column> -->
-								</p:dataTable>
-							</h:form>
-						</p:panel>
-					</p:tab>
-				</p:tabView>
-			</p:layoutUnit>
-		</p:layout>
-	</f:view>
-</h:body>
+						</p:dataTable>
+					</h:form>
+				</p:panel>
+			</p:tab>
+		</p:tabView>
+	</ui:define>
+</ui:composition>
 </h:html>

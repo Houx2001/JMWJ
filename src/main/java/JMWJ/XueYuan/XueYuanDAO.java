@@ -2,6 +2,7 @@ package JMWJ.XueYuan;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.ibatis.session.SqlSession;
@@ -38,6 +39,27 @@ public class XueYuanDAO {
 			return listXueYuan;
 		}
 	}
+	
+	@SuppressWarnings("finally")
+	public List<XueYuanBean> getAllXueYuanBySchool(String school) throws ConfigurationException,
+			IOException {
+		List<XueYuanBean> listXueYuan = null;
+		try {
+			session = getSqlSession();
+			listXueYuan = session.selectList("getAllXueYuanBySchool", school);
+			session.commit();
+
+		} catch (ConfigurationException e) {
+			throw e;
+		} catch (IOException e) {
+			throw e;
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+			return listXueYuan;
+		}
+	}
 
 	@SuppressWarnings("finally")
 	public List<XueYuanBean> getXueYuanByClassID(String classID)
@@ -61,6 +83,28 @@ public class XueYuanDAO {
 	}
 
 	@SuppressWarnings("finally")
+	public List<XueYuanBean> getXueYuanByClassIDAndSchool(Map map)
+			throws ConfigurationException, IOException {
+		List<XueYuanBean> listXueYuan = null;
+		try {
+			session = getSqlSession();
+			listXueYuan = session.selectList("getXueYuanByClassIDAndSchool", map);
+			session.commit();
+
+		} catch (ConfigurationException e) {
+			throw e;
+		} catch (IOException e) {
+			throw e;
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+			return listXueYuan;
+		}
+	}
+
+	
+	@SuppressWarnings("finally")
 	public List<XueYuanBean> getXueYuanByName(String name)
 			throws ConfigurationException, IOException {
 
@@ -69,6 +113,29 @@ public class XueYuanDAO {
 			session = getSqlSession();
 			listXueYuan = session.selectList("model.XueYuan.getXueYuanByName",
 					name);
+			session.commit();
+
+		} catch (ConfigurationException e) {
+			throw e;
+		} catch (IOException e) {
+			throw e;
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+			return listXueYuan;
+		}
+	}
+	
+	@SuppressWarnings("finally")
+	public List<XueYuanBean> getXueYuanByNameAndSchool(Map map)
+			throws ConfigurationException, IOException {
+
+		List<XueYuanBean> listXueYuan = null;
+		try {
+			session = getSqlSession();
+			listXueYuan = session.selectList("model.XueYuan.getXueYuanByNameAndSchool",
+					map		);
 			session.commit();
 
 		} catch (ConfigurationException e) {

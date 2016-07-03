@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='GBK' ?>
+
+<!DOCTYPE html>
+<h:html xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+	<h:outputStylesheet library="css" name="login.css"></h:outputStylesheet>
+</h:head>
+<h:body>
+	<f:view>
+		<div class="login_main">
+			<div class="login_main_head"></div>
+			<div class="login_main_center">
+				<h:form styleClass="jyk_form">
+					<div class="login_form" style="OVERFLOW: visible;">
+
+						<div class="chooselogin">
+							<h:outputText classStyle="choose" value="用户登录" />
+						</div>
+
+						<div class="form_bottom" id="ptzhDiv">
+							<p:inputText value="#{userManagmentBean.username}"
+								classStyle="loginInput" type="text" alt="请输入登录名"
+								placeholder="请输入登录名" size="34"></p:inputText>
+							<div style="height: 20px"></div>
+							<p:inputText value="#{userManagmentBean.password}"
+								classStyle="loginInput" type="password" alt="请输入密码"
+								placeholder="请输入密码" size="34"></p:inputText>
+							<div style="height: 20px"></div>
+							<p:panelGrid columns="3" styleClass="ui-noborder">
+								<p:outputLabel value="进入校区" />
+								<div></div>
+								<p:selectOneMenu id="school" value="#{userManagmentBean.school}">
+									<f:selectItems value="#{userManagmentBean.schoolList}"
+										var="school" itemLabel="#{school.name}"
+										itemValue="#{school.name}" />
+								</p:selectOneMenu>
+							</p:panelGrid>
+							<div style="height: 20px"></div>
+							<div class="login-form-submit"
+								style="margin-top: 20px; min-height: 180px;">
+
+								<div class="platformlogin">
+									<p:commandLink action="#{userManagmentBean.login}" value="登录"></p:commandLink>
+								</div>
+							</div>
+						</div>
+					</div>
+				</h:form>
+			</div>
+		</div>
+	</f:view>
+</h:body>
+</h:html>

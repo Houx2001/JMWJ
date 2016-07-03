@@ -8,15 +8,15 @@ import javax.faces.bean.RequestScoped;
 @ManagedBean(name="banjiBean")
 @RequestScoped
 public class BanJiBean {
-	private int id; // 班级编号
-	private String name; // 班级名称
-	private Date starttime; // 开班时间
-	private String studytype; // 上课时间
-	private double payhour; // 课时
-	private int pay; // 课时费
-	private String teachers; // 授课教师
-	private String extend1; // 保留字段1
-	private String extend2; // 保留字段2
+	private int id; // 鐝骇缂栧彿
+	private String name; // 鐝骇鍚嶇О
+	private Date starttime; // 寮�鐝椂闂�
+	private String studytype; // 涓婅鏃堕棿
+	private double payhour; // 璇炬椂
+	private int pay; // 璇炬椂璐�
+	private String teachers; // 鎺堣鏁欏笀
+	private String school; // 淇濈暀瀛楁1
+	private String extend2; // 淇濈暀瀛楁2
 
 	public int getId() {
 		return id;
@@ -74,12 +74,12 @@ public class BanJiBean {
 		this.teachers = teachers;
 	}
 
-	public String getExtend1() {
-		return extend1;
+	public String getSchool() {
+		return school;
 	}
 
-	public void setExtend1(String extend1) {
-		this.extend1 = extend1;
+	public void setSchool(String school) {
+		this.school = school;
 	}
 
 	public String getExtend2() {

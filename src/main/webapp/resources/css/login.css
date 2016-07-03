@@ -1,0 +1,57 @@
+@charset "utf-8";
+/* CSS Document */
+body{ font-size:12px; font-family:"微软雅黑";background-color:#fff;}
+div{ overflow:hidden;}
+*{ margin:0; padding:0;}
+.clear:after{ height:0; content:""; clear:both; display:block; visibility:hidden;}
+.clear{zoom:1;}
+a:link{ text-decoration:none;}
+a,input,label{outline-style:none;}
+.login_main{
+	width:960px; margin:0px auto;
+	}
+.login_main_head{
+	height:187px;
+	background:url(../Image/login_head.jpg) no-repeat 35px 18px;
+	}
+.login_main_center{
+	height:500px; margin-top:48px; background:url(../Image/login_main_center.png) no-repeat 79px 0px;
+	padding:0px 90px 0px 547px;
+	}
+.login_main_center .login_form{
+	width:324px; background:url(Image/login_form.png) repeat-y;
+	}
+.login_form .form_top{
+	height:9px; no-repeat center top;
+	}
+.login_form .form_bottom{
+	no-repeat center bottom;
+	padding:28px 38px 40px 40px;
+	}
+.textInput{
+	width:246px;
+	}
+.loginInput{
+	height:24px; line-height:24px;border:none; background:none;color:#939393;
+	font-size:14px; font-family:"微软雅黑";
+	}
+.login-form-submit{
+	height:50px; margin-top:12px;
+	}
+
+.login_main_foot{
+	text-align:center; line-height:24px; color:#666;
+	}
+.login_main_foot a{ color:#666; text-decoration:none}
+/******新登录 sw 2015/4/29*******/
+.platformlogin a{ width:240px; height:40px; display:block; text-align:center; color:#FFF; font-size:14px; background:url(../Image/loginpic.png); line-height:40px; font-family: "Microsoft YaHei" ! important;}
+
+.mt18 { margin-top:18px;}
+
+/* #region 新增教育卡登陆tab样式 */
+
+
+.jyk_form .login_form {WIDTH: 324px;height:246px;border: 1px solid #b4cdd7;background:none;}
+.chooselogin { border-bottom:1px solid #b4cdd7; height:56px; padding:1px; background:#e8f0f3; padding-left:110px; padding-right:36px;list-style:none;line-height:54px; height:54px;font-size:20px}
+
+/* #endregion */

@@ -12,8 +12,8 @@ public class XueYuanKaoQinBean {
 	private String classname;
 	private Date timesheettime;
 	private String status;
-	private int rating;
-	private double classhours = 1.0;
+	private int rating = 5;
+	private float classhours = 1;
 	private String comment;
 
 	public int getId() {
@@ -72,11 +72,11 @@ public class XueYuanKaoQinBean {
 		this.rating = rating;
 	}
 
-	public double getClasshours() {
+	public float getClasshours() {
 		return classhours;
 	}
 
-	public void setClasshours(double classhours) {
+	public void setClasshours(float classhours) {
 		this.classhours = classhours;
 	}
 

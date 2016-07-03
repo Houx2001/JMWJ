@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>  
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper  
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
@@ -6,14 +6,19 @@
 
 <mapper namespace="model.KaoQin">
 
-	<select id="getXueYuanKaoQinByBanji" parameterType="String" resultType="JMWJ.KaoQin.XueYuanKaoQinBean">
+	<select id="getXueYuanKaoQinByBanji" parameterType="java.util.Map" resultType="JMWJ.KaoQin.XueYuanKaoQinBean">
 		select k.id, k.studentid, x.name as studentname, k.classname, k.timesheettime, k.status, k.rating, k.classhours, k.comment from jmwj_xueyuan_kaoqin k, jmwj_xueyuan x 
-			where k.studentid = x.id and k.classname = #{classname} order by k.timesheettime, x.name
+			where k.studentid = x.id and k.classname = #{classname} and x.school = #{school} order by k.timesheettime, x.name
 	</select>
 	
 	<select id="getXueYuanKaoQinByXueYuan" parameterType="String" resultType="JMWJ.KaoQin.XueYuanKaoQinBean">
 		select k.id, k.studentid, x.name as studentname, k.classname, k.timesheettime, k.status, k.rating, k.classhours, k.comment from jmwj_xueyuan_kaoqin k, jmwj_xueyuan x 
 			where k.studentid = x.id and x.name = #{studentname} order by k.timesheettime, k.classname
+	</select>
+	
+	<select id="getXueYuanKaoQinByXueYuanAndXueqi" parameterType="java.util.Map" resultType="JMWJ.KaoQin.XueYuanKaoQinBean">
+		select k.id, k.studentid, x.name as studentname, k.classname, k.timesheettime, k.status, k.rating, k.classhours, k.comment from jmwj_xueyuan_kaoqin k, jmwj_xueyuan x 
+			where k.studentid = x.id and x.name = #{studentname} and k.timesheettime between #{starttime} and #{endtime} order by k.timesheettime, k.classname
 	</select>
 	
 	<select id="getXueYuanKaoQinByBanJiAndShiJian" parameterType="java.util.Map" resultType="JMWJ.KaoQin.XueYuanKaoQinBean">
@@ -29,6 +34,11 @@
 	<select id="totalXueYuanKaoQinHoursGroupByStatus" parameterType="String" resultType="hashmap">
 		select x.name as studentname, k.status as status, sum(k.classhours) as totalhours, x.givehours, x.classhours from jmwj_xueyuan_kaoqin k, jmwj_xueyuan x 
 			where k.studentid = x.id and x.name = #{studentname} group by k.status
+	</select>
+	
+	<select id="totalXueYuanKaoQinXueqiHoursGroupByStatus" parameterType="java.util.Map" resultType="hashmap">
+		select x.name as studentname, k.status as status, sum(k.classhours) as totalhours, x.givehours, x.classhours from jmwj_xueyuan_kaoqin k, jmwj_xueyuan x 
+			where k.studentid = x.id and x.name = #{studentname} and k.timesheettime between #{starttime} and #{endtime} group by k.status
 	</select>
 		
 	<insert id="createXueYuanKaoQin" parameterType="JMWJ.KaoQin.XueYuanKaoQinBean"
