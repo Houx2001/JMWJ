@@ -6,342 +6,252 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
-<h:head />
-<h:body>
-	<f:view>
-		<p:layout fullPage="true">
+<ui:composition template="/template/app_manager_layout.xhtml">
+	<ui:define name="content">
+		<p:tabView id="xueyuantabs"
+			activeIndex="#{xueyuanManagmentBean.activeIndex}">
+			<p:tab title="学员报名">
 
-			<p:layoutUnit position="north" size="50">
-				<p:outputPanel>
-          	京美舞集教学管理系统
-        </p:outputPanel>
-			</p:layoutUnit>
-			<p:layoutUnit position="west" resizable="true" size="150">
-				<p:accordionPanel>
-					<p:tab title="学员管理">
-						<h:panelGrid columns="1">
-							<p:commandLink process="@this" update="xueyuantabs">
-								<h:outputText value="学员报名" />
-								<f:setPropertyActionListener value="0"
-									target="#{xueyuanManagmentBean.activeIndex}"></f:setPropertyActionListener>
-							</p:commandLink>
-						</h:panelGrid>
-						<h:panelGrid columns="1">
-							<p:commandLink process="@this" update="xueyuantabs">
-								<h:outputText value="按班级查询" />
-								<f:setPropertyActionListener value="1"
-									target="#{xueyuanManagmentBean.activeIndex}"></f:setPropertyActionListener>
-							</p:commandLink>
-						</h:panelGrid>
-					</p:tab>
-					<p:tab title="班级管理">
-						<p:link href="/banji/banji_manager.xhtml" value="班级管理" />
-					</p:tab>
-					<p:tab title="考勤管理">
-						<p:link href="/kaoqin/xueyuan_kaoqin_manager.xhtml" value="考勤管理" />
-					</p:tab>
+				<p:panel header="登记报名">
+					<h:form>
+						<p:messages id="savemsg" for="saveXueYuan" severity="info,error" />
+						<p:panelGrid columns="8" layout="tabular">
+							<p:outputLabel for="name" value="学员姓名" />
+							<p:inputText id="name" required="true"
+								value="#{xueyuanBean.name}" label="学员姓名" />
+							<p:outputLabel for="sex" value="性别" />
+							<p:selectOneMenu id="sex" required="true"
+								value="#{xueyuanBean.sex}">
+								<f:selectItem itemLabel="女" itemValue="女" />
+								<f:selectItem itemLabel="男" itemValue="男" />
+							</p:selectOneMenu>
+							<p:outputLabel for="degree" value="教育类型" />
+							<p:selectOneMenu id="degree" value="#{xueyuanBean.degree}">
+								<f:selectItem itemLabel="学龄前" itemValue="学龄前" />
+								<f:selectItem itemLabel="幼儿园" itemValue="幼儿园" />
+								<f:selectItem itemLabel="小学" itemValue="小学" />
+								<f:selectItem itemLabel="初高中" itemValue="初高中" />
+								<f:selectItem itemLabel="成人" itemValue="成人" />
+							</p:selectOneMenu>
+							<p:outputLabel for="mothermobile" value="联系电话" />
+							<p:inputText id="mothermobile"
+								value="#{xueyuanBean.mothermobile}" label="联系电话" required="true" />
+							<p:outputLabel for="givehours" value="所报课时" />
+							<p:spinner id="givehours" value="#{xueyuanBean.givehours}"
+								required="true" min="40" />
+							<p:outputLabel for="classesid" value="所在班级" />
+							<p:selectOneMenu id="classesid" required="true"
+								value="#{xueyuanBean.classesid}">
+								<f:selectItems value="#{banjiManagmentBean.banjiList}"
+									var="banji" itemLabel="#{banji.name}" itemValue="#{banji.name}" />
+							</p:selectOneMenu>
+							<p:outputLabel for="classhours" value="小时/课时" />
+							<p:inputText id="classhours" value="#{xueyuanBean.classhours}"
+								label="小时/课时" type="number" required="true" />
+							<p:outputLabel for="birthday" value="出生日期" />
+							<p:calendar id="birthday" required="true"
+								value="#{xueyuanBean.birthday}" pattern="yyyy/MM/dd"
+								showOn="button" placeholder="2010/01/01" navigator="true">
+							</p:calendar>
+							<p:outputLabel for="startday" value="缴费日期" />
+							<p:calendar id="startday" required="true"
+								value="#{xueyuanBean.startday}" pattern="yyyy/MM/dd"
+								showOn="button" placeholder="2016/09/01" navigator="true">
+							</p:calendar>
+							<p:outputLabel for="channel" value="信息来源" />
+							<p:selectOneMenu id="channel" value="#{xueyuanBean.channel}">
+								<f:selectItem itemLabel="朋友推荐" itemValue="朋友推荐" />
+								<f:selectItem itemLabel="电话咨询" itemValue="电话咨询" />
+								<f:selectItem itemLabel="微信" itemValue="微信" />
+								<f:selectItem itemLabel="网上广告" itemValue="网上广告" />
+								<f:selectItem itemLabel="门店咨询" itemValue="门店咨询" />
+							</p:selectOneMenu>
+							<p:outputLabel for="consultant" value="咨询师" />
+							<p:inputText id="consultant" value="#{xueyuanBean.consultant}"
+								label="咨询师" />
+						</p:panelGrid>
+						<p:separator></p:separator>
+						<p:commandButton id="save" value="保存"
+							actionListener="#{xueyuanManagmentBean.save}" update="@all"></p:commandButton>
 
-				</p:accordionPanel>
-			</p:layoutUnit>
+					</h:form>
 
-			<p:layoutUnit position="center">
-				<p:tabView id="xueyuantabs"
-					activeIndex="#{xueyuanManagmentBean.activeIndex}">
-					<p:tab title="学员报名">
+				</p:panel>
 
-						<p:panel header="登记报名">
-							<h:form>
-								<p:messages id="savemsg" for="saveXueYuan" severity="info,error" />
-								<p:panelGrid columns="6" layout="tabular" style="font-size: 16px">
-									<p:outputLabel for="name" value="学员姓名" />
-									<p:inputText id="name" required="true"
-										value="#{xueyuanBean.name}" label="学员姓名" />
-									<p:outputLabel for="sex" value="性别" />
-									<p:selectOneMenu id="sex" required="true"
-										value="#{xueyuanBean.sex}">
-										<f:selectItem itemLabel="女" itemValue="女" />
-										<f:selectItem itemLabel="男" itemValue="男" />
-									</p:selectOneMenu>
-									<p:outputLabel for="degree" value="教育类型" />
-									<p:selectOneMenu id="degree" value="#{xueyuanBean.degree}">
-										<f:selectItem itemLabel="学龄前" itemValue="学龄前" />
-										<f:selectItem itemLabel="幼儿园" itemValue="幼儿园" />
-										<f:selectItem itemLabel="小学" itemValue="小学" />
-										<f:selectItem itemLabel="初高中" itemValue="初高中" />
-										<f:selectItem itemLabel="成人" itemValue="成人" />
-									</p:selectOneMenu>
-
-									<p:outputLabel for="birthday" value="出生日期" />
-									<p:calendar id="birthday" required="true"
-										value="#{xueyuanBean.birthday}"
-										pattern="yyyy/MM/dd" showOn="button">
-									</p:calendar>
-									<p:outputLabel for="startday" value="报名日期" />
-									<p:calendar id="startday" required="true"
-										value="#{xueyuanBean.startday}"
-										pattern="yyyy/MM/dd" showOn="button">
-									</p:calendar>
-									<p:outputLabel for="channel" value="信息来源" />
-									<p:selectOneMenu id="channel" value="#{xueyuanBean.channel}">
-										<f:selectItem itemLabel="朋友推荐" itemValue="朋友推荐" />
-										<f:selectItem itemLabel="电话咨询" itemValue="电话咨询" />
-										<f:selectItem itemLabel="微信" itemValue="微信" />
-										<f:selectItem itemLabel="网上广告" itemValue="网上广告" />
-										<f:selectItem itemLabel="门店咨询" itemValue="门店咨询" />
-									</p:selectOneMenu>
-									<p:outputLabel for="mothername" value="母亲姓名" />
-									<p:inputText id="mothername" value="#{xueyuanBean.mothername}"
-										label="母亲姓名" />
-									<p:outputLabel for="mothermobile" value="母亲手机号" />
-									<p:inputText id="mothermobile"
-										value="#{xueyuanBean.mothermobile}" label="母亲手机号" />
-									<p:outputLabel for="fathername" value="父亲姓名" />
-									<p:inputText id="fathername" value="#{xueyuanBean.fathername}"
-										label="父亲姓名" />
-
-									<p:outputLabel for="fathermobile" value="父亲手机号" />
-									<p:inputText id="fathermobile"
-										value="#{xueyuanBean.fathermobile}" label="父亲手机号" />
-									<p:outputLabel for="address" value="联系地址" />
-									<p:inputText id="address" value="#{xueyuanBean.address}"
-										label="联系地址" />
-									<p:outputLabel for="givehours" value="所报课时" />
-									<p:spinner id="givehours" value="#{xueyuanBean.givehours}"
-										required="true" min="20" />
-									<p:outputLabel for="classesid" value="所在班级" />
-									<p:selectOneMenu id="classesid" required="true"
-										value="#{xueyuanBean.classesid}">
-										<f:selectItems value="#{banjiManagmentBean.banjiList}"
-											var="banji" itemLabel="#{banji.name}"
-											itemValue="#{banji.name}" />
-									</p:selectOneMenu>
-
-									<p:outputLabel for="mobile" value="本人手机号" />
-									<p:inputText id="mobile" value="#{xueyuanBean.mobile}"
-										label="本人手机号" />
-									<p:outputLabel for="consultant" value="咨询师" />
-									<p:inputText id="consultant" value="#{xueyuanBean.consultant}"
-										label="咨询师" />
-									<p:outputLabel for="classhours" value="小时/课时" />
-									<p:inputText id="classhours" value="#{xueyuanBean.classhours}"
-										label="小时/课时" type="number" />
-								</p:panelGrid>
-								<p:separator></p:separator>
-								<p:commandButton id="save" value="保存"
-									actionListener="#{xueyuanManagmentBean.save}" update="@all"></p:commandButton>
-
-							</h:form>
-
-						</p:panel>
-
-						<p:panel header="学员列表">
-							<h:form id="form1">
-								<p:dataTable id="xueyuantable" var="xueyuan"
-									value="#{xueyuanManagmentBean.xueyuanList}" paginator="true"
-									rows="25" resizableColumns="true" liveResize="true"
-									editable="true" emptyMessage="没有相应结果">
-									<p:ajax event="rowEdit"
-										listener="#{xueyuanManagmentBean.update}" />
-									<p:column filterable="true" filterBy="#{xueyuan.name}"
-										filterMatchMode="contains">
-										<f:facet name="header">
-											<h:outputText value="学员姓名" />
-										</f:facet>
-										<h:outputText value="#{xueyuan.name}" />
-									</p:column>
-									<p:column>
-										<f:facet name="header">
-											<h:outputText value="性别" />
-										</f:facet>
-										<h:outputText value="#{xueyuan.sex}" />
-									</p:column>
-									<p:column>
-										<f:facet name="header">
-											<h:outputText value="教育类型" />
-										</f:facet>
-										<h:outputText value="#{xueyuan.degree}" />
-									</p:column>
-									<p:column>
-										<f:facet name="header">
-											<h:outputText value="出生日期" />
-										</f:facet>
-										<h:outputText value="#{xueyuan.birthday}">
-											<f:convertDateTime pattern="yyyy/MM/dd" timeZone="GMT+8" />
-										</h:outputText>
-									</p:column>
-									<p:column>
-										<f:facet name="header">
-											<h:outputText value="报名日期" />
-										</f:facet>
+				<p:panel header="学员列表">
+					<h:form id="form1">
+						<p:dataTable id="xueyuantable" var="xueyuan"
+							value="#{xueyuanManagmentBean.xueyuanList}" paginator="true"
+							rows="25" resizableColumns="true" liveResize="true"
+							filteredValue="#{xueyuanManagmentBean.xueyuanList}"
+							editable="true" emptyMessage="没有相应结果">
+							<p:ajax event="rowEdit" listener="#{xueyuanManagmentBean.update}" />
+							<p:column filterable="true" filterBy="#{xueyuan.name}"
+								filterMatchMode="contains">
+								<f:facet name="header">
+									<h:outputText value="学员姓名" />
+								</f:facet>
+								<h:outputText value="#{xueyuan.name}" />
+							</p:column>
+							<p:column>
+								<f:facet name="header">
+									<h:outputText value="性别" />
+								</f:facet>
+								<h:outputText value="#{xueyuan.sex}" />
+							</p:column>
+							<p:column>
+								<f:facet name="header">
+									<h:outputText value="教育类型" />
+								</f:facet>
+								<h:outputText value="#{xueyuan.degree}" />
+							</p:column>
+							<p:column>
+								<f:facet name="header">
+									<h:outputText value="出生日期" />
+								</f:facet>
+								<h:outputText value="#{xueyuan.birthday}">
+									<f:convertDateTime pattern="yyyy/MM/dd" timeZone="GMT+8" />
+								</h:outputText>
+							</p:column>
+							<p:column>
+								<f:facet name="header">
+									<h:outputText value="联系电话" />
+								</f:facet>
+								<h:outputText value="#{xueyuan.mothermobile}" />
+							</p:column>
+							<p:column>
+								<f:facet name="header">
+									<h:outputText value="缴费日期" />
+								</f:facet>
+								<p:cellEditor>
+									<f:facet name="output">
 										<h:outputText value="#{xueyuan.startday}">
 											<f:convertDateTime pattern="yyyy/MM/dd" timeZone="GMT+8" />
 										</h:outputText>
-									</p:column>
-									<p:column>
-										<f:facet name="header">
-											<h:outputText value="母亲姓名" />
-										</f:facet>
-										<h:outputText value="#{xueyuan.mothername}" />
-									</p:column>
-									<p:column>
-										<f:facet name="header">
-											<h:outputText value="母亲手机号" />
-										</f:facet>
-										<h:outputText value="#{xueyuan.mothermobile}" />
-									</p:column>
-									<!-- 
-								<p:column>
-									<f:facet name="header">
-										<h:outputText value="父亲姓名" />
 									</f:facet>
-									<h:outputText value="#{xueyuan.fathername}" />
-								</p:column>
-								<p:column>
-									<f:facet name="header">
-										<h:outputText value="父亲手机号" />
+									<f:facet name="input">
+										<p:calendar id="startday" required="true"
+											value="#{xueyuan.startday}" pattern="yyyy/MM/dd"
+											navigator="true">
+										</p:calendar>
 									</f:facet>
-									<h:outputText value="#{xueyuan.fathermobile}" />
-								</p:column>
-								-->
-									<p:column sortable="true">
-										<f:facet name="header">
-											<h:outputText value="所报课时" />
-										</f:facet>
-										<p:cellEditor>
-											<f:facet name="output">
-												<h:outputText value="#{xueyuan.givehours}" />
-											</f:facet>
-											<f:facet name="input">
-												<p:inputText value="#{xueyuan.givehours}" type="number" />
-											</f:facet>
-										</p:cellEditor>
-									</p:column>
-									<p:column>
-										<f:facet name="header">
-											<h:outputText value="所在班级" />
-										</f:facet>
-										<p:cellEditor>
-											<f:facet name="output">
-												<h:outputText value="#{xueyuan.classesid}" />
-											</f:facet>
-											<f:facet name="input">
-												<p:inputText value="#{xueyuan.classesid}" />
-											</f:facet>
-										</p:cellEditor>
-									</p:column>
-									<p:column>
-										<f:facet name="header">
-											<h:outputText value="变更" />
-										</f:facet>
-										<p:rowEditor />
-									</p:column>
-								</p:dataTable>
-							</h:form>
-						</p:panel>
-					</p:tab>
-					<p:tab title="按班级查询">
-						<p:panel header="班级学员">
-							<h:form>
-								<p:panelGrid columns="4" layout="tabular">
-
-									<p:outputLabel for="classesid2" value="所在班级" />
-									<p:selectOneMenu id="classesid2"
-										value="#{xueyuanBean.classesid}">
-										<f:selectItems value="#{banjiManagmentBean.banjiList}"
-											var="banji" itemLabel="#{banji.name}"
-											itemValue="#{banji.name}" />
-									</p:selectOneMenu>
-									<p:commandButton id="querybyclass" value="查询"
-										actionListener="#{xueyuanManagmentBean.querybyclassid}"
-										update="xueyuantablebyclass">
-									</p:commandButton>
-
-								</p:panelGrid>
-
-								<p:separator></p:separator>
-								<p:dataTable id="xueyuantablebyclass" var="xueyuan"
-									value="#{xueyuanManagmentBean.xueyuanQueryList}"
-									paginator="true" rows="10" resizableColumns="true"
-									liveResize="true" emptyMessage="没有相应结果">
-									<p:column filterBy="#{xueyuan.name}" filterMatchMode="contains">
-										<f:facet name="header">
-											<h:outputText value="学员姓名" />
-										</f:facet>
-										<h:outputText value="#{xueyuan.name}" />
-									</p:column>
-									<p:column>
-										<f:facet name="header">
-											<h:outputText value="性别" />
-										</f:facet>
-										<h:outputText value="#{xueyuan.sex}" />
-									</p:column>
-									<p:column>
-										<f:facet name="header">
-											<h:outputText value="教育类型" />
-										</f:facet>
-										<h:outputText value="#{xueyuan.degree}" />
-									</p:column>
-									<p:column>
-										<f:facet name="header">
-											<h:outputText value="出生日期" />
-										</f:facet>
-										<h:outputText value="#{xueyuan.birthday}">
-											<f:convertDateTime pattern="yyyy/MM/dd" timeZone="GMT+8" />
-										</h:outputText>
-									</p:column>
-									<p:column>
-										<f:facet name="header">
-											<h:outputText value="报名日期" />
-										</f:facet>
-										<h:outputText value="#{xueyuan.startday}">
-											<f:convertDateTime pattern="yyyy/MM/dd" timeZone="GMT+8" />
-										</h:outputText>
-									</p:column>
-									<p:column>
-										<f:facet name="header">
-											<h:outputText value="母亲姓名" />
-										</f:facet>
-										<h:outputText value="#{xueyuan.mothername}" />
-									</p:column>
-									<p:column>
-										<f:facet name="header">
-											<h:outputText value="母亲手机号" />
-										</f:facet>
-										<h:outputText value="#{xueyuan.mothermobile}" />
-									</p:column>
-									<!-- 
-								<p:column>
-									<f:facet name="header">
-										<h:outputText value="父亲姓名" />
-									</f:facet>
-									<h:outputText value="#{xueyuan.fathername}" />
-								</p:column>
-								<p:column>
-									<f:facet name="header">
-										<h:outputText value="父亲手机号" />
-									</f:facet>
-									<h:outputText value="#{xueyuan.fathermobile}" />
-								</p:column>
-								-->
-									<p:column sortBy="#{xueyuan.givehours}">
-										<f:facet name="header">
-											<h:outputText value="所报课时" />
-										</f:facet>
+								</p:cellEditor>
+							</p:column>
+							<p:column sortable="true">
+								<f:facet name="header">
+									<h:outputText value="所报课时" />
+								</f:facet>
+								<p:cellEditor>
+									<f:facet name="output">
 										<h:outputText value="#{xueyuan.givehours}" />
-									</p:column>
-									<p:column>
-										<f:facet name="header">
-											<h:outputText value="所在班级" />
-										</f:facet>
+									</f:facet>
+									<f:facet name="input">
+										<p:inputText value="#{xueyuan.givehours}" id="givehours" />
+									</f:facet>
+								</p:cellEditor>
+							</p:column>
+							<p:column>
+								<f:facet name="header">
+									<h:outputText value="所在班级" />
+								</f:facet>
+								<p:cellEditor>
+									<f:facet name="output">
 										<h:outputText value="#{xueyuan.classesid}" />
-									</p:column>
-								</p:dataTable>
-							</h:form>
-						</p:panel>
-					</p:tab>
-				</p:tabView>
-			</p:layoutUnit>
-		</p:layout>
-	</f:view>
-</h:body>
+									</f:facet>
+									<f:facet name="input">
+										<p:inputText value="#{xueyuan.classesid}" />
+									</f:facet>
+								</p:cellEditor>
+							</p:column>
+							<p:column>
+								<f:facet name="header">
+									<h:outputText value="变更" />
+								</f:facet>
+								<p:rowEditor />
+							</p:column>
+						</p:dataTable>
+					</h:form>
+				</p:panel>
+			</p:tab>
+			<p:tab title="按班级查询">
+				<p:panel header="班级学员">
+					<h:form>
+						<p:panelGrid columns="4" layout="tabular">
+
+							<p:outputLabel for="classesid2" value="所在班级" />
+							<p:selectOneMenu id="classesid2" value="#{xueyuanBean.classesid}">
+								<f:selectItems value="#{banjiManagmentBean.banjiList}"
+									var="banji" itemLabel="#{banji.name}" itemValue="#{banji.name}" />
+							</p:selectOneMenu>
+							<p:commandButton id="querybyclass" value="查询"
+								actionListener="#{xueyuanManagmentBean.querybyclassid}"
+								update="xueyuantablebyclass">
+							</p:commandButton>
+
+						</p:panelGrid>
+
+						<p:separator></p:separator>
+						<p:dataTable id="xueyuantablebyclass" var="xueyuan"
+							value="#{xueyuanManagmentBean.xueyuanQueryList}" paginator="true"
+							rows="10" resizableColumns="true" liveResize="true"
+							emptyMessage="没有相应结果">
+							<p:column filterBy="#{xueyuan.name}" filterMatchMode="contains">
+								<f:facet name="header">
+									<h:outputText value="学员姓名" />
+								</f:facet>
+								<h:outputText value="#{xueyuan.name}" />
+							</p:column>
+							<p:column>
+								<f:facet name="header">
+									<h:outputText value="性别" />
+								</f:facet>
+								<h:outputText value="#{xueyuan.sex}" />
+							</p:column>
+							<p:column>
+								<f:facet name="header">
+									<h:outputText value="教育类型" />
+								</f:facet>
+								<h:outputText value="#{xueyuan.degree}" />
+							</p:column>
+							<p:column>
+								<f:facet name="header">
+									<h:outputText value="出生日期" />
+								</f:facet>
+								<h:outputText value="#{xueyuan.birthday}">
+									<f:convertDateTime pattern="yyyy/MM/dd" timeZone="GMT+8" />
+								</h:outputText>
+							</p:column>
+							<p:column>
+								<f:facet name="header">
+									<h:outputText value="联系电话" />
+								</f:facet>
+								<h:outputText value="#{xueyuan.mothermobile}" />
+							</p:column>
+							<p:column>
+								<f:facet name="header">
+									<h:outputText value="缴费日期" />
+								</f:facet>
+								<h:outputText value="#{xueyuan.startday}">
+									<f:convertDateTime pattern="yyyy/MM/dd" timeZone="GMT+8" />
+								</h:outputText>
+							</p:column>
+							<p:column sortBy="#{xueyuan.givehours}">
+								<f:facet name="header">
+									<h:outputText value="所报课时" />
+								</f:facet>
+								<h:outputText value="#{xueyuan.givehours}" />
+							</p:column>
+							<p:column>
+								<f:facet name="header">
+									<h:outputText value="所在班级" />
+								</f:facet>
+								<h:outputText value="#{xueyuan.classesid}" />
+							</p:column>
+						</p:dataTable>
+					</h:form>
+				</p:panel>
+			</p:tab>
+		</p:tabView>
+	</ui:define>
+</ui:composition>
 </h:html>

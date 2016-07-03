@@ -9,6 +9,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.primefaces.event.RowEditEvent;
@@ -29,7 +30,10 @@ public class BanJiManagmentAction {
 		FacesContext facesContext = FacesContext.getCurrentInstance();
 		HttpServletRequest req = (HttpServletRequest) facesContext
 				.getExternalContext().getRequest();
+		HttpSession session = (HttpSession) facesContext.getExternalContext()
+				.getSession(true);
 		BanJiBean banji = (BanJiBean) req.getAttribute("banjiBean");
+		banji.setSchool(session.getAttribute("school").toString());
 		try {
 			banjiDao.createBanJi(banji);
 			facesContext.addMessage("saveBanJi", new FacesMessage(
@@ -44,7 +48,11 @@ public class BanJiManagmentAction {
 
 	public List<BanJiBean> getBanjiList() throws ConfigurationException,
 			IOException {
-		return banjiDao.getAllBanji();
+		FacesContext facesContext = FacesContext.getCurrentInstance();
+		HttpSession session = (HttpSession) facesContext.getExternalContext()
+				.getSession(true);
+		return banjiDao.getAllBanjiBySchool(session.getAttribute("school")
+				.toString());
 	}
 
 	public void changeBanji(RowEditEvent ev) throws ConfigurationException,

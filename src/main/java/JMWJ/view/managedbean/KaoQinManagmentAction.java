@@ -1,5 +1,6 @@
 package JMWJ.view.managedbean;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -13,11 +14,15 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.primefaces.event.RowEditEvent;
 
 import JMWJ.KaoQin.XueYuanKaoQinBean;
 import JMWJ.KaoQin.XueYuanKaoQinDAO;
+import JMWJ.XueYuan.XueYuanBean;
+import JMWJ.XueYuan.XueYuanDAO;
 
 @ManagedBean(name = "kaoqinManagementBean")
 @ViewScoped
@@ -29,9 +34,12 @@ public class KaoQinManagmentAction {
 	private final String ERROR_MSG = "操作出现异常，请联系管理员";
 
 	private String className;
+	private JMWJ.XueYuan.XueYuanBean student;
 	private String studentName;
 	private Date timesheettime = new Date();
-	private double classhours = 1.0D;
+	private Date starttime;
+	private Date endtime;
+	private float classhours = 1;
 	private List<XueYuanKaoQinBean> kaoqinQueryList;
 	private List<XueYuanKaoQinBean> kaoqinFilteredList;
 	private XueYuanKaoQinBean selectedKaoQin;
@@ -46,6 +54,14 @@ public class KaoQinManagmentAction {
 		this.className = className;
 	}
 
+	public XueYuanBean getStudent() {
+		return student;
+	}
+
+	public void setStudent(XueYuanBean student) {
+		this.student = student;
+	}
+
 	public String getStudentName() {
 		return studentName;
 	}
@@ -54,11 +70,11 @@ public class KaoQinManagmentAction {
 		this.studentName = studentName;
 	}
 
-	public double getClasshours() {
+	public float getClasshours() {
 		return classhours;
 	}
 
-	public void setClasshours(double classhours) {
+	public void setClasshours(float classhours) {
 		this.classhours = classhours;
 	}
 
@@ -76,6 +92,22 @@ public class KaoQinManagmentAction {
 
 	public void setTimesheettime(Date timesheettime) {
 		this.timesheettime = timesheettime;
+	}
+
+	public Date getStarttime() {
+		return starttime;
+	}
+
+	public void setStarttime(Date startime) {
+		this.starttime = startime;
+	}
+
+	public Date getEndtime() {
+		return endtime;
+	}
+
+	public void setEndtime(Date endtime) {
+		this.endtime = endtime;
 	}
 
 	public List<XueYuanKaoQinBean> getKaoqinFilteredList() {
@@ -179,14 +211,41 @@ public class KaoQinManagmentAction {
 	}
 
 	public void querybyclassname(ActionEvent ev) {
-
-		kaoqinQueryList = kaoqinDao.getXueYuanKaoQinByBanji(className);
+		FacesContext facesContext = FacesContext.getCurrentInstance();
+		HttpServletRequest req = (HttpServletRequest) facesContext
+				.getExternalContext().getRequest();
+		HttpSession session = (HttpSession) facesContext.getExternalContext()
+				.getSession(true);
+		Map queryKaoqin = new HashMap();
+		queryKaoqin.put("classname", className);
+		queryKaoqin.put("school", session.getAttribute("school").toString());
+		kaoqinQueryList = kaoqinDao.getXueYuanKaoQinByBanji(queryKaoqin);
 	}
 
 	public void querybystudentname(ActionEvent ev) {
 
 		kaoqinQueryList = kaoqinDao.getXueYuanKaoQinByXueYuan(studentName);
 		totalHours = kaoqinDao.totalXueYuanKaoQinHours(studentName);
+	}
+
+	public void queryByStudentNameAndXueqi(ActionEvent ev) throws Exception,
+			IOException {
+		FacesContext facesContext = FacesContext.getCurrentInstance();
+		HttpSession session = (HttpSession) facesContext.getExternalContext()
+				.getSession(true);
+		Map queryXueyuan = new HashMap();
+		queryXueyuan.put("name", studentName);
+		queryXueyuan.put("school", session.getAttribute("school").toString());
+		XueYuanDAO xueyuanDao = new XueYuanDAO();
+		List xueyuanList = xueyuanDao.getXueYuanByNameAndSchool(queryXueyuan);
+		XueYuanBean xueyuan = (XueYuanBean) xueyuanList.get(0);
+		Map queryKaoqin = new HashMap();
+		queryKaoqin.put("studentname", studentName);
+		queryKaoqin.put("starttime", xueyuan.getStartday());
+		queryKaoqin.put("endtime", new Date());
+		kaoqinQueryList = kaoqinDao
+				.getXueYuanKaoQinByXueYuanAndXueqi(queryKaoqin);
+		totalHours = kaoqinDao.totalXueYuanKaoQinXueqiHours(queryKaoqin);
 	}
 
 	public void changeStatus(RowEditEvent ev) {
@@ -218,13 +277,11 @@ public class KaoQinManagmentAction {
 				} catch (Exception e) {
 					e.printStackTrace();
 					facesContext.addMessage("additionsaveKaoQin",
-							new FacesMessage(FacesMessage.SEVERITY_ERROR,
-									ERROR_MSG, e.toString()));
-					return;
-				} finally {
-					inputKaoQinList.clear();
+							new FacesMessage(FacesMessage.SEVERITY_ERROR, "第"
+									+ i + 1 + "条" + ERROR_MSG, e.toString()));
 				}
 			}
+			inputKaoQinList.clear();
 			facesContext.addMessage("additionsaveKaoQin", new FacesMessage(
 					FacesMessage.SEVERITY_INFO, SAVE_MSG, null));
 		}

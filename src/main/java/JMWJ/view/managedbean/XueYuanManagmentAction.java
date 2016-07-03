@@ -2,7 +2,9 @@ package JMWJ.view.managedbean;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -10,11 +12,12 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.configuration.ConfigurationException;
+import org.primefaces.component.datatable.DataTable;
 import org.primefaces.event.RowEditEvent;
 
-import JMWJ.BanJi.BanJiBean;
 import JMWJ.BanJi.BanJiDAO;
 import JMWJ.XueYuan.XueYuanBean;
 import JMWJ.XueYuan.XueYuanDAO;
@@ -34,7 +37,10 @@ public class XueYuanManagmentAction implements Serializable {
 		FacesContext facesContext = FacesContext.getCurrentInstance();
 		HttpServletRequest req = (HttpServletRequest) facesContext
 				.getExternalContext().getRequest();
+		HttpSession session = (HttpSession) facesContext.getExternalContext()
+				.getSession(true);
 		XueYuanBean xueyuan = (XueYuanBean) req.getAttribute("xueyuanBean");
+		xueyuan.setSchool(session.getAttribute("school").toString());
 		try {
 			xueyuanDao.createXueYuan(xueyuan);
 			facesContext.addMessage("saveXueYuan", new FacesMessage(
@@ -52,9 +58,13 @@ public class XueYuanManagmentAction implements Serializable {
 		HttpServletRequest req = (HttpServletRequest) facesContext
 				.getExternalContext().getRequest();
 		XueYuanBean xueyuan = (XueYuanBean) req.getAttribute("xueyuanBean");
+		HttpSession session = (HttpSession) facesContext.getExternalContext()
+				.getSession(true);
+		Map<String, String> map = new HashMap();
+		map.put("classesid", xueyuan.getClassesid());
+		map.put("school", session.getAttribute("school").toString());
 		try {
-			xueyuanQueryList = xueyuanDao.getXueYuanByClassID(xueyuan
-					.getClassesid());
+			xueyuanQueryList = xueyuanDao.getXueYuanByClassIDAndSchool(map);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -63,7 +73,11 @@ public class XueYuanManagmentAction implements Serializable {
 	public List<XueYuanBean> getXueyuanList() throws ConfigurationException,
 			IOException {
 		if (this.xueyuanQueryList == null) {
-			this.xueyuanQueryList = xueyuanDao.getAllXueYuan();
+			FacesContext facesContext = FacesContext.getCurrentInstance();
+			HttpSession session = (HttpSession) facesContext
+					.getExternalContext().getSession(true);
+			this.xueyuanQueryList = xueyuanDao.getAllXueYuanBySchool(session
+					.getAttribute("school").toString());
 		}
 		return this.xueyuanQueryList;
 	}
@@ -74,7 +88,13 @@ public class XueYuanManagmentAction implements Serializable {
 
 	public List<XueYuanBean> queryByXueyuanName(String name)
 			throws ConfigurationException, IOException {
-		return xueyuanDao.getXueYuanByName(name);
+		FacesContext facesContext = FacesContext.getCurrentInstance();
+		HttpSession session = (HttpSession) facesContext.getExternalContext()
+				.getSession(true);
+		Map<String, String> map = new HashMap();
+		map.put("name", name);
+		map.put("school", session.getAttribute("school").toString());
+		return xueyuanDao.getXueYuanByNameAndSchool(map);
 	}
 
 	public int getActiveIndex() {

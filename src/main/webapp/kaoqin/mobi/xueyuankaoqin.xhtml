@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='GBK' ?>
+
+<!DOCTYPE html>
+<h:html xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:pm="http://primefaces.org/mobile">
+
+<h:head />
+<h:body>
+	<f:view renderKitId="PRIMEFACES_MOBILE">
+
+		<pm:page id="class_list">
+			<pm:header title="班级列表">
+			</pm:header>
+			<pm:content>
+				<h:form>
+					<p:dataList value="#{banjiManagmentBean.banjiList}" var="banji"
+						rows="10" paginatorAlwaysVisible="false" itemType="disc">
+						<p:commandLink action="#{mobiManagmentBean.querybyClassid}"
+							update="student_list">
+							<f:setPropertyActionListener value="#{banji.name}"
+								target="#{xueyuanBean.classesid}">
+							</f:setPropertyActionListener>
+							<h:outputText value="#{banji.name}" />
+						</p:commandLink>
+					</p:dataList>
+				</h:form>
+			</pm:content>
+		</pm:page>
+
+		<pm:page id="student_list">
+			<pm:header title="学员考勤">
+			</pm:header>
+			<pm:content>
+				<p:panelGrid columns="2" >
+					<pm:field>
+						<p:outputLabel value="上课时间" />
+						<p:calendar pattern="yyyy/MM/dd" />
+					</pm:field>
+					<pm:field>
+						<p:outputLabel value="课时" />
+						<p:inputText value="#{xueyuanBean.classhours}" label="课时"
+							type="number" />
+					</pm:field>
+				</p:panelGrid>
+				<p:separator></p:separator>
+				<p:dataList value="#{mobiManagmentBean.xueyuanQueryList}"
+					var="xueyuan" rows="10" paginatorAlwaysVisible="false"
+					itemType="disc">
+					<h:outputText value="#{xueyuan.name}" />
+				</p:dataList>
+			</pm:content>
+		</pm:page>
+
+	</f:view>
+</h:body>
+</h:html>

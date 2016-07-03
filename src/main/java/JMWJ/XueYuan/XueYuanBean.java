@@ -19,10 +19,10 @@ public class XueYuanBean {
 	private String address;				//		鑱旂郴鍦板潃
 	private String mothername;			//		姣嶄翰濮撳悕
 	private String fathername;			//		鐖朵翰濮撳悕
-	private int givehours;				//		鎵�鎶ヨ鏃�
+	private float givehours;				//		鎵�鎶ヨ鏃�
 	private String classesid;			//		鎵�鍦ㄧ彮绾�
-	private double classhours = 1.0;	//		
-	private String extend2;				//		淇濈暀瀛楁2
+	private float classhours = 1;	//		
+	private String school;				//		淇濈暀瀛楁2
 	public int getId() {
 		return id;
 	}
@@ -113,10 +113,10 @@ public class XueYuanBean {
 	public void setFathername(String fathername) {
 		this.fathername = fathername;
 	}
-	public int getGivehours() {
+	public float getGivehours() {
 		return givehours;
 	}
-	public void setGivehours(int givehours) {
+	public void setGivehours(float givehours) {
 		this.givehours = givehours;
 	}
 	public String getClassesid() {
@@ -126,17 +126,17 @@ public class XueYuanBean {
 	public void setClassesid(String classesid) {
 		this.classesid = classesid;
 	}
-	public double getClasshours() {
+	public float getClasshours() {
 		return classhours;
 	}
-	public void setClasshours(double classhours) {
+	public void setClasshours(float classhours) {
 		this.classhours = classhours;
 	}
-	public String getExtend2() {
-		return extend2;
+	public String getSchool() {
+		return school;
 	}
-	public void setExtend2(String extend2) {
-		this.extend2 = extend2;
+	public void setSchool(String school) {
+		this.school = school;
 	}
 	
 }

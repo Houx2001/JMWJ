@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='GBK' ?>
+
+<!DOCTYPE html>
+<h:html xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<ui:composition>
+	<p:panel header="考勤补录">
+		<h:form id="kaoqinbuluform">
+			<p:messages for="additionsaveKaoQin" severity="info,warn,error" />
+			<p:panelGrid columns="8" layout="tabular">
+				<p:outputLabel value="上课时间" />
+				<p:calendar id="bulutimesheettime" required="true"
+					value="#{kaoqinManagementBean.timesheettime}" pattern="yyyy/MM/dd"
+					showOn="button" navigator="true">
+				</p:calendar>
+				<p:separator></p:separator>
+				<p:commandButton id="add" value="新增考勤记录"
+					actionListener="#{kaoqinManagementBean.add}"
+					update="kaoqinbuluform"></p:commandButton>
+				<p:commandButton id="save2" value="保存"
+					actionListener="#{kaoqinManagementBean.additionsave}"
+					update="kaoqinbuluform"></p:commandButton>
+			</p:panelGrid>
+			<p:separator />
+			<div class="ui-datatable ui-widget ui-datatable-tablewrapper">
+				<table role="grid">
+					<thead>
+						<tr role="row">
+							<th role="columnheader" class="ui-state-default"><h:outputText
+									value="学员姓名" /></th>
+							<th role="columnheader" class="ui-state-default"><h:outputText
+									value="班级名称" /></th>
+							<th role="columnheader" class="ui-state-default"><h:outputText
+									value="课时（小时）" /></th>
+							<th role="columnheader" class="ui-state-default"><h:outputText
+									value="上课状态" /></th>
+							<th role="columnheader" class="ui-state-default"><h:outputText
+									value="评价" /></th>
+						</tr>
+					</thead>
+					<tbody class="ui-datatable-data ui-widget-content">
+						<c:forEach var="kaoqinBean"
+							items="#{kaoqinManagementBean.inputKaoQinList}"
+							varStatus="status">
+							<tr class="ui-widget-content ui-datatable-even" role="row">
+								<td role="gridcell" class="ui-editable-column"><p:selectOneMenu
+										id="bulustudentname" value="#{kaoqinBean.studentid}"
+										style="padding-right: 0em; width: 100%" filter="true" filterMatchMode="contains">
+										<f:selectItems value="#{xueyuanManagmentBean.xueyuanList}"
+											var="xueyuan" itemLabel="#{xueyuan.name}"
+											itemValue="#{xueyuan.id}" />
+									</p:selectOneMenu></td>
+								<td role="gridcell" class="ui-editable-column"><p:selectOneMenu
+										id="buluclassname" value="#{kaoqinBean.classname}"
+										style="padding-right: 0em; width: 100%">
+										<f:selectItems value="#{banjiManagmentBean.banjiList}"
+											var="banji" itemLabel="#{banji.name}"
+											itemValue="#{banji.name}" />
+									</p:selectOneMenu></td>
+								<td role="gridcell" class="ui-editable-column"><p:inputText
+										value="#{kaoqinBean.classhours}" type="number"
+										style="padding-right: 0em; width: 100%" /></td>
+								<td role="gridcell" class="ui-editable-column"><p:selectOneMenu
+										id="bulustatus" value="#{kaoqinBean.status}"
+										style="padding-right: 0em; width: 100%">
+										<f:selectItem itemLabel="上课" itemValue="上课" />
+										<f:selectItem itemLabel="请假" itemValue="请假" />
+										<f:selectItem itemLabel="顺延" itemValue="顺延" />
+										<f:selectItem itemLabel="空白" itemValue="空白" />
+									</p:selectOneMenu></td>
+								<td role="gridcell" class="ui-editable-column"><p:rating
+										id="bulustudentrating" value="#{kaoqinBean.rating}"
+										style="padding-right: 0em; width: 100%" /></td>
+							</tr>
+						</c:forEach>
+					</tbody>
+				</table>
+			</div>
+		</h:form>
+	</p:panel>
+</ui:composition>
+</h:html>

@@ -2,6 +2,7 @@ package JMWJ.BanJi;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.ibatis.session.SqlSession;
@@ -40,6 +41,27 @@ public class BanJiDAO {
 	}
 
 	@SuppressWarnings("finally")
+	public List<BanJiBean> getAllBanjiBySchool(String school)
+			throws ConfigurationException, IOException {
+		List<BanJiBean> listBanJi = null;
+		try {
+			session = getSqlSession();
+			listBanJi = session.selectList("getAllBanjiBySchool", school);
+			session.commit();
+
+		} catch (ConfigurationException e) {
+			throw e;
+		} catch (IOException e) {
+			throw e;
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+			return listBanJi;
+		}
+	}
+
+	@SuppressWarnings("finally")
 	public List<BanJiBean> getBanJiByName(String name)
 			throws ConfigurationException, IOException {
 
@@ -54,6 +76,28 @@ public class BanJiDAO {
 		} catch (IOException e) {
 			throw e;
 		} finally {
+			if (session != null) {
+				session.close();
+			}
+			return listBanJi;
+		}
+	}
+
+	@SuppressWarnings("finally")
+	public List<BanJiBean> getBanJiByNameAndSchool(Map map)
+			throws ConfigurationException, IOException {
+
+		List<BanJiBean> listBanJi = null;
+		try {
+			session = getSqlSession();
+			listBanJi = session.selectList("getBanJiByNameAndSchool", map);
+			session.commit();
+
+		} catch (ConfigurationException e) {
+			throw e;
+		} catch (IOException e) {
+			throw e;
+		} finally {		
 			if (session != null) {
 				session.close();
 			}

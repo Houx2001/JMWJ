@@ -10,17 +10,26 @@
 		select * from jmwj_banji
 	</select>
 
+	<select id="getAllBanjiBySchool" parameterType="String" resultType="JMWJ.BanJi.BanJiBean">
+		select * from jmwj_banji where school = #{school}
+	</select>
+	
 	<select id="getBanJiByName" parameterType="String" resultType="JMWJ.BanJi.BanJiBean">
 		select * from jmwj_banji where name like
 		CONCAT('%',#{name},'%')
 	</select>
-
+	
+	<select id="getBanJiByNameAndSchool" parameterType="java.util.Map" resultType="JMWJ.BanJi.BanJiBean">
+		select * from jmwj_banji where name like
+		CONCAT('%',#{name},'%') and school = #{school}
+	</select>
+	
 	<insert id="createBanJi" parameterType="JMWJ.BanJi.BanJiBean"
 		useGeneratedKeys="true" keyProperty="id" flushCache="true">
 		insert into
-		jmwj_banji(name,starttime,studytype,payhour,pay,teachers)
+		jmwj_banji(name,starttime,studytype,payhour,pay,teachers,school)
 		values
-		(#{name},#{starttime,jdbcType=DATE},#{studytype},#{payhour},#{pay},#{teachers})
+		(#{name},#{starttime,jdbcType=DATE},#{studytype},#{payhour},#{pay},#{teachers},#{school})
 	</insert>
 
 	<update id="modifyBanJi" parameterType="JMWJ.BanJi.BanJiBean">
@@ -43,6 +52,9 @@
 			</if>
 			<if test="teachers != null ">
 				teachers = #{teachers},
+			</if>
+			<if test="school != null ">
+				school = #{school},
 			</if>
 		</set>
 		where id = #{id}

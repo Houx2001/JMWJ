@@ -9,11 +9,21 @@
 	<select id="getAllXueYuan" resultType="JMWJ.XueYuan.XueYuanBean">
 		select * from jmwj_xueyuan
 	</select>
+	
+	<select id="getAllXueYuanBySchool" parameterType="String" resultType="JMWJ.XueYuan.XueYuanBean">
+		select * from jmwj_xueyuan where school = #{school}
+	</select>
 
 	<select id="getXueYuanByName" parameterType="String"
 		resultType="JMWJ.XueYuan.XueYuanBean">
 		select * from jmwj_xueyuan where name like
 		CONCAT('%',#{name},'%')
+	</select>
+	
+	<select id="getXueYuanByNameAndSchool" parameterType="java.util.Map"
+		resultType="JMWJ.XueYuan.XueYuanBean">
+		select * from jmwj_xueyuan where name like
+		CONCAT('%',#{name},'%') and school = #{school}
 	</select>
 
 	<select id="getXueYuanByClassID" parameterType="String"
@@ -22,12 +32,18 @@
 		CONCAT('%',#{classesid},'%')
 	</select>
 
+	<select id="getXueYuanByClassIDAndSchool" parameterType="java.util.Map"
+		resultType="JMWJ.XueYuan.XueYuanBean">
+		select * from jmwj_xueyuan where classesid like
+		CONCAT('%',#{classesid},'%') and school = #{school}
+	</select>
+	
 	<insert id="createXueYuan" parameterType="JMWJ.XueYuan.XueYuanBean"
 		useGeneratedKeys="true" keyProperty="id" flushCache="true">
 		insert into
-		jmwj_xueyuan(name,sex,degree,birthday,startday,channel,consultant,mobile,phone,mothermobile,fathermobile,address,mothername,fathername,givehours,classesid,classhours)
+		jmwj_xueyuan(name,sex,degree,birthday,startday,channel,consultant,mobile,phone,mothermobile,fathermobile,address,mothername,fathername,givehours,classesid,classhours,school)
 		values (#{name},
-		#{sex},#{degree},#{birthday,jdbcType=DATE},#{startday,jdbcType=DATE},#{channel},#{consultant},#{mobile},#{phone},#{mothermobile},#{fathermobile},#{address},#{mothername},#{fathername},#{givehours},#{classesid},#{classhours})
+		#{sex},#{degree},#{birthday,jdbcType=DATE},#{startday,jdbcType=DATE},#{channel},#{consultant},#{mobile},#{phone},#{mothermobile},#{fathermobile},#{address},#{mothername},#{fathername},#{givehours},#{classesid},#{classhours},#{school})
 	</insert>
 
 	<update id="modifyXueYuan" parameterType="JMWJ.XueYuan.XueYuanBean">
@@ -83,7 +99,10 @@
 				classesid = #{classesid},
 			</if>
 			<if test="classhours != null ">
-				classhours = #{classhours}
+				classhours = #{classhours},
+			</if>
+			<if test="school != null ">
+				school = #{school}
 			</if>
 		</set>
 		where id = #{id}

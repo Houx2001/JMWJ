@@ -21,14 +21,13 @@ public class XueYuanKaoQinDAO {
 	}
 
 	@SuppressWarnings("finally")
-	public List<XueYuanKaoQinBean> getXueYuanKaoQinByBanji(String className) {
+	public List<XueYuanKaoQinBean> getXueYuanKaoQinByBanji(Map queryMap) {
 		List<XueYuanKaoQinBean> listKaoQin = null;
 		try {
 			session = getSqlSession();
-			listKaoQin = session.selectList("getXueYuanKaoQinByBanji",
-					className);
+			listKaoQin = session
+					.selectList("getXueYuanKaoQinByBanji", queryMap);
 			session.commit();
-
 		} catch (ConfigurationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -101,6 +100,31 @@ public class XueYuanKaoQinDAO {
 			session = getSqlSession();
 			listKaoQin = session.selectList(
 					"getXueYuanKaoQinByXueYuanAndZhuangTai", queryKaoQin);
+			session.commit();
+
+		} catch (ConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+			return listKaoQin;
+		}
+	}
+
+	@SuppressWarnings("finally")
+	public List<XueYuanKaoQinBean> getXueYuanKaoQinByXueYuanAndXueqi(
+			Map queryKaoQin) {
+
+		List<XueYuanKaoQinBean> listKaoQin = null;
+		try {
+			session = getSqlSession();
+			listKaoQin = session.selectList(
+					"getXueYuanKaoQinByXueYuanAndXueqi", queryKaoQin);
 			session.commit();
 
 		} catch (ConfigurationException e) {
@@ -223,4 +247,25 @@ public class XueYuanKaoQinDAO {
 		return totalList;
 	}
 
+	@SuppressWarnings("finally")
+	public List<Map> totalXueYuanKaoQinXueqiHours(Map queryKaoqin) {
+		List<Map> totalList = null;
+		try {
+			session = getSqlSession();
+			totalList = session.selectList(
+					"totalXueYuanKaoQinXueqiHoursGroupByStatus", queryKaoqin);
+			session.commit();
+		} catch (ConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+		}
+		return totalList;
+	}
 }

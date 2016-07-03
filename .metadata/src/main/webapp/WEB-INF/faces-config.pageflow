@@ -1,2 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pageflow:Pageflow xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf14484642184890" configfile="/JMWJ_ArtSchool_App/src/main/webapp/WEB-INF/faces-config.xml"/>
+<pageflow:Pageflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf14484642184890" configfile="/JMWJ_ArtSchool_App/src/main/webapp/WEB-INF/faces-config.xml">
+  <nodes xsi:type="pageflow:PFPage" name="kaoqin/mobi/xueyuankaoqin.xhtml" x="270" y="112" id="pf14623351549400" path="/kaoqin/mobi/xueyuankaoqin.xhtml"/>
+</pageflow:Pageflow>
