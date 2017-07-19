@@ -148,11 +148,14 @@ public class KaoQinManagmentAction {
 	public void save(ActionEvent ev) {
 		FacesContext facesContext = FacesContext.getCurrentInstance();
 		ExternalContext context = facesContext.getExternalContext();
+		HttpSession session = (HttpSession) facesContext.getExternalContext()
+				.getSession(true);
 		Map<String, String> reqParams = context.getRequestParameterMap();
 		String className = reqParams.get("className");
 		Map queryMap = new HashMap();
 		queryMap.put("classname", className);
 		queryMap.put("timesheettime", timesheettime);
+		queryMap.put("school", session.getAttribute("school").toString());		
 		if (!kaoqinDao.getXueYuanKaoQinByBanJiAndShiJian(queryMap).isEmpty()) {
 			facesContext.addMessage("saveKaoQin", new FacesMessage(
 					FacesMessage.SEVERITY_WARN, SAVE_MSG_DUPLICATE, null));

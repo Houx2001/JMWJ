@@ -1,9 +1,5 @@
-<<<<<<< HEAD
-<?xml version="1.0" encoding="UTF-8"?>
-=======
-<?xml version="1.0" encoding="UTF-8"?>  
->>>>>>> refs/remotes/origin/master
-<!DOCTYPE mapper  
+<?xml version="1.0" encoding="UTF-8"?> 
+<!DOCTYPE mapper 
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
@@ -27,7 +23,7 @@
 	
 	<select id="getXueYuanKaoQinByBanJiAndShiJian" parameterType="java.util.Map" resultType="JMWJ.KaoQin.XueYuanKaoQinBean">
 		select k.id, k.studentid, x.name as studentname, k.classname, k.timesheettime, k.status, k.rating, k.classhours, k.comment from jmwj_xueyuan_kaoqin k, jmwj_xueyuan x 
-			where k.studentid = x.id and k.classname = #{classname} and k.timesheettime = #{timesheettime,jdbcType=DATE} order by x.name
+			where k.studentid = x.id and k.classname = #{classname} and k.timesheettime = #{timesheettime,jdbcType=DATE} and x.school = #{school} order by x.name
 	</select>
 	
 	<select id="getXueYuanKaoQinByXueYuanAndZhuangTai" parameterType="java.util.Map" resultType="JMWJ.KaoQin.XueYuanKaoQinBean">
