@@ -12,11 +12,7 @@ public class XueYuanKaoQinBean {
 	private String classname;
 	private Date timesheettime;
 	private String status;
-<<<<<<< HEAD
 	private int rating = 5;
-=======
-	private int rating;
->>>>>>> refs/remotes/origin/master
 	private float classhours = 1;
 	private String comment;
 
