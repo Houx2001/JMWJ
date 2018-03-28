@@ -97,7 +97,7 @@
 			<version>0.9.1</version>
 		</dependency>
 	</dependencies>
-	
+     <build>
       <plugins>
        <plugin>
           <groupId>org.apache.tomcat.maven</groupId>
@@ -108,5 +108,5 @@
 	    </configuration>
         </plugin>
       </plugins>
-    
+     </build>
 </project>
